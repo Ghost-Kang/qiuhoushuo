@@ -1,0 +1,149 @@
+/* 球迷形象页 · 漏斗式重设计(视觉系统 v2) — 复用 token,新增 token=0 */
+.container { padding: var(--sp-4); min-height: 100vh; }
+button::after { border: none; } /* 去 button 默认描边(小程序坑) */
+
+.step { animation: step-in var(--dur-base) var(--ease-out); }
+@keyframes step-in { from { opacity: 0; transform: translateY(12rpx); } to { opacity: 1; transform: none; } }
+
+.step-back { color: var(--text-muted); font-size: var(--fs-sm); padding: var(--sp-2) 0; }
+.step-title { font-size: var(--fs-h1); font-weight: var(--fw-black); margin: var(--sp-2) 0 var(--sp-4); }
+
+/* —— Step0 诱饵 —— */
+.avatar-hero { padding: var(--sp-6) 0 var(--sp-4); }
+.hero-title { font-size: var(--fs-display); font-weight: var(--fw-black); letter-spacing: -1rpx; line-height: var(--lh-tight); }
+.hero-accent { color: var(--brand); }
+.hero-sub { margin-top: var(--sp-2); color: var(--text-muted); font-size: var(--fs-sm); line-height: var(--lh-snug); }
+/* 示例图自动连续轮播(洗衣机转筒):外层裁切,内层轨道(inline-flex=内容宽)线性平移无缝循环。
+   轨道含两份相同图,translateX(-50%) 到中点即与起点重合 → 无缝接回。仅 Step0 渲染时动,离开即停。 */
+.example-marquee { overflow: hidden; width: 100%; margin: var(--sp-4) 0; }
+.example-track {
+  display: inline-flex;
+  animation: example-marquee 36s linear infinite;
+  will-change: transform;
+}
+.example-img {
+  flex: 0 0 auto; width: 300rpx; height: 400rpx; margin-right: var(--sp-3);
+  border-radius: var(--r-lg); box-shadow: var(--elev-2); background: var(--surface);
+}
+@keyframes example-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* —— 漏斗主 CTA(基于全局 .btn-primary,改全宽块) —— */
+.funnel-cta, .confirm-cta { display: flex; width: 100%; margin-top: var(--sp-5); }
+.funnel-cta.is-disabled { opacity: 0.4; }
+.trust-line { margin-top: var(--sp-3); text-align: center; color: var(--text-muted); font-size: var(--fs-2xs); line-height: var(--lh-snug); }
+
+/* —— entry 第二入口:与球星合影(costar) —— */
+.entry-or { margin-top: var(--sp-3); text-align: center; color: var(--text-faint); font-size: var(--fs-2xs); }
+.entry-cta-costar { margin-top: var(--sp-2); justify-content: center; }
+/* costar 如实披露:AI 合成、非真实合影(避免误导用户/软化肖像观感) */
+.costar-disclaimer { margin-top: var(--sp-3); text-align: center; color: var(--text-muted); font-size: var(--fs-2xs); line-height: var(--lh-snug); }
+.costar-target { margin: calc(-1 * var(--sp-2)) 0 var(--sp-3); color: var(--brand); font-size: var(--fs-sm); }
+.result-costar-note { margin-top: var(--sp-2); }
+
+/* —— Step1 选球队:国旗卡网格(替代手填) —— */
+.team-grid { display: flex; flex-wrap: wrap; }
+.team-card {
+  width: 30%; margin: 0 1.5% var(--sp-3); box-sizing: border-box;
+  min-height: 132rpx; padding: var(--sp-3) var(--sp-2);
+  border-radius: var(--r-md); background: var(--surface);
+  border: 1rpx solid var(--hairline); text-align: center;
+  transition: transform var(--dur-fast) var(--ease-std);
+}
+.team-card:active { transform: scale(0.97); }
+.team-card.is-selected { border: 1rpx solid var(--brand); box-shadow: var(--glow-accent); }
+.team-flag { font-size: 56rpx; line-height: 1.2; }
+.team-name { margin-top: var(--sp-1); font-size: var(--fs-sm); }
+.other-team { margin-top: var(--sp-2); }
+
+/* 形象风格选择:沿用本页选中=青蓝描边+glow 的视觉语言(同国旗卡/示例) */
+.style-picker { margin-top: var(--sp-4); }
+.style-picker-label { font-size: var(--fs-sm); color: var(--text-muted); margin-bottom: var(--sp-2); }
+.style-tags { display: flex; gap: var(--sp-2); }
+.style-tag {
+  flex: 1; text-align: center; padding: 20rpx 0;
+  border-radius: var(--r-pill); background: var(--surface);
+  border: 1rpx solid var(--hairline); font-size: var(--fs-sm); color: var(--text);
+  transition: transform var(--dur-fast) var(--ease-std), border-color var(--dur-base), color var(--dur-base);
+}
+.style-tag:active { transform: scale(0.97); }
+.style-tag.is-selected { border: 1rpx solid var(--brand); color: var(--brand); box-shadow: var(--glow-accent); background: rgba(0,229,255,0.08); }
+.field-input {
+  padding: 20rpx 24rpx; border-radius: var(--r-md);
+  background: var(--surface); border: 1rpx solid var(--hairline); font-size: var(--fs-body);
+}
+
+/* —— Step2 选图(复用 picker) —— */
+.picker {
+  display: flex; align-items: center; justify-content: center;
+  height: 480rpx; border-radius: var(--r-lg);
+  background: var(--surface); border: 2rpx dashed var(--hairline); overflow: hidden;
+}
+.selfie { width: 100%; height: 100%; }
+.picker-empty { text-align: center; color: var(--text-muted); }
+.picker-plus { font-size: 72rpx; line-height: 1; }
+.picker-text { margin-top: var(--sp-2); font-size: var(--fs-sm); }
+
+/* —— Step4 生成中:进度环(唯一持续动画)+ 文案轮播 —— */
+.step-generating { text-align: center; padding-top: var(--sp-7); }
+.spinner {
+  width: 96rpx; height: 96rpx; margin: 0 auto var(--sp-5);
+  border-radius: 50%;
+  border: 6rpx solid rgba(0,229,255,0.18);
+  border-top-color: var(--brand);
+  box-shadow: 0 0 24rpx var(--accent-glow);
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gen-title { font-size: var(--fs-h2); font-weight: var(--fw-bold); }
+.gen-sub { margin-top: var(--sp-3); color: var(--text-muted); font-size: var(--fs-sm); line-height: var(--lh-snug); }
+.gen-tip { margin-top: var(--sp-5); color: var(--brand); font-size: var(--fs-sm); }
+
+/* —— Step5 出图:成品大图弹入 + 双主操作 + 复购 —— */
+.result-cheer { font-size: var(--fs-h2); font-weight: var(--fw-bold); text-align: center; margin: var(--sp-4) 0; }
+.result-card { position: relative; animation: result-enter var(--dur-slow) var(--ease-out); }
+@keyframes result-enter { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.result-image { width: 100%; border-radius: var(--r-lg); display: block; }
+.result-mark { position: absolute; right: var(--sp-3); bottom: var(--sp-3); color: var(--text-faint); font-size: var(--fs-2xs); letter-spacing: 1rpx; }
+.result-actions { display: flex; gap: var(--sp-3); margin-top: var(--sp-4); }
+.result-save, .result-share { flex: 1; display: flex; }
+.result-remake { margin-top: var(--sp-3); text-align: center; color: var(--text-muted); font-size: var(--fs-sm); padding: var(--sp-2); }
+.result-wx-save { margin-top: var(--sp-3); text-align: center; color: var(--accent-ink); font-size: var(--fs-sm); font-weight: var(--fw-semi); padding: var(--sp-3); border: 1rpx solid var(--accent-ink); border-radius: 16rpx; }
+
+/* —— Step3 确认半屏(合规同意 + 付费 合并) —— */
+.confirm-mask {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: flex-end;
+  animation: mask-in var(--dur-base) var(--ease-out);
+}
+@keyframes mask-in { from { opacity: 0; } to { opacity: 1; } }
+.confirm-sheet {
+  width: 100%; box-sizing: border-box;
+  background: var(--bg-elev-1);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  padding: var(--sp-3) var(--sp-4) calc(var(--sp-5) + env(safe-area-inset-bottom));
+  animation: sheet-up var(--dur-slow) var(--ease-out);
+}
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-grabber { width: 72rpx; height: 8rpx; border-radius: var(--r-pill); background: var(--hairline-2); margin: 0 auto var(--sp-4); }
+.confirm-title { font-size: var(--fs-h2); font-weight: var(--fw-black); }
+.confirm-preview { display: flex; align-items: center; margin-top: var(--sp-4); }
+.confirm-thumb { width: 112rpx; height: 112rpx; border-radius: var(--r-md); margin-right: var(--sp-3); }
+.confirm-team { font-size: var(--fs-body); font-weight: var(--fw-semi); }
+.confirm-style { margin-top: var(--sp-1); color: var(--text-muted); font-size: var(--fs-xs); }
+.confirm-divider { height: 1rpx; background: var(--hairline); margin: var(--sp-4) 0; }
+.consent-fold-head { display: flex; justify-content: space-between; font-size: var(--fs-sm); }
+.consent-fold-toggle { color: var(--brand); }
+.consent-summary { margin-top: var(--sp-2); color: var(--text-muted); font-size: var(--fs-xs); line-height: var(--lh-snug); }
+.consent-detail { margin-top: var(--sp-1); color: var(--text-muted); font-size: var(--fs-2xs); line-height: var(--lh-snug); }
+.consent { display: flex; align-items: flex-start; margin-top: var(--sp-3); }
+.consent-text { margin-left: var(--sp-2); color: var(--text-muted); font-size: var(--fs-2xs); line-height: var(--lh-snug); }
+.price-line { margin-top: var(--sp-3); color: var(--text-muted); font-size: var(--fs-xs); }
+.confirm-dismiss { margin-top: var(--sp-3); text-align: center; color: var(--text-muted); font-size: var(--fs-sm); padding: var(--sp-2); }
+
+/* 页脚弱标识只加间距,字号/颜色沿用 app.wxss 全局可读样式(不再 faint+2xs 读不清);
+   显著标识由顶部 .aigc-banner 承担。 */
+.ai-notice { margin-top: var(--sp-5); }

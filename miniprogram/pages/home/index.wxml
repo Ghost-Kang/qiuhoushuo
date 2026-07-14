@@ -1,0 +1,158 @@
+<!-- 赛事 Tab · VS 对决版(圆角国旗 + 焦点卡 + 微交互) -->
+
+<!-- 首次启动协议同意关卡:用户主动阅读并同意《用户协议》《隐私政策》后才进(修审核失败原因1·不默认同意) -->
+<agreement-gate />
+
+<!-- ===== templates ===== -->
+<import src="/templates/flag.wxml" />
+
+<!-- 标准对决卡:三个分区共用(今日其余 / 未来 / 历史) -->
+<!-- mode: 'score' 显比分 / 'vs' 显 VS+时间 ; right: 'live'|'finished'|'bell' -->
+<template name="vsCard">
+  <view class="card {{item.status === 'live' ? 'is-live' : ''}} {{item.status === 'finished' ? 'is-finished' : ''}}"
+        data-id="{{item.id}}" bindtap="goMatch" style="animation-delay:{{(idx || 0) * 40}}ms">
+    <view class="card-top">
+      <view class="side">
+        <template is="flag" data="{{flag: item.home_flag, size: 'md'}}" />
+        <text class="team">{{item.home_team}}</text>
+      </view>
+
+      <view class="spine">
+        <block wx:if="{{mode === 'score'}}">
+          <view class="score {{item.scoreBump ? 'score-bump' : ''}}">
+            <text class="num">{{item.home_score}}</text>
+            <text class="colon">:</text>
+            <text class="num">{{item.away_score}}</text>
+          </view>
+          <text class="spine-sub">{{item.date_text || item.kickoff}}</text>
+        </block>
+        <block wx:else>
+          <text class="vs">VS</text>
+          <text class="spine-sub">{{item.kickoff_text || item.kickoff}}</text>
+        </block>
+      </view>
+
+      <view class="side">
+        <template is="flag" data="{{flag: item.away_flag, size: 'md'}}" />
+        <text class="team">{{item.away_team}}</text>
+      </view>
+    </view>
+
+    <view class="card-action">
+      <view wx:if="{{right === 'live'}}" class="badge live"><view class="live-dot"></view>正在直播</view>
+      <view wx:elif="{{right === 'finished'}}" class="badge finished">看战报 ›</view>
+      <view wx:else class="bell" data-id="{{item.id}}" catchtap="toggleReminder">🔔 提醒我</view>
+    </view>
+  </view>
+</template>
+
+<!-- ===== page ===== -->
+<view class="container">
+
+  <view class="hero">
+    <view class="brand">超帧球后说</view>
+    <view class="slogan">赛后两分钟，比赛才刚开始。</view>
+  </view>
+
+  <!-- 赛事榜单(置顶引流):点进去看具体内容,页内可存图分享 -->
+  <view class="section-title">赛事榜单</view>
+  <view class="lb-row">
+    <view class="lb-card lb-score" bindtap="goLeaderboard">
+      <view class="lb-emoji">👟</view>
+      <view class="lb-title">射手榜 · 助攻榜</view>
+      <view class="lb-sub">金靴 + 助攻王 ›</view>
+    </view>
+    <view class="lb-card lb-stand" bindtap="goStandings">
+      <view class="lb-emoji">📊</view>
+      <view class="lb-title">小组积分榜</view>
+      <view class="lb-sub">出线形势 ›</view>
+    </view>
+  </view>
+  <view class="lb-bracket" bindtap="goBracket">
+    <view class="lb-bracket-emoji">🏆</view>
+    <view class="lb-bracket-text">
+      <view class="lb-title">淘汰赛对阵图</view>
+      <view class="lb-sub">32强 → 决赛 · 一张图看晋级 · 可存图分享 ›</view>
+    </view>
+  </view>
+
+  <view class="section-title">今天的比赛</view>
+
+  <view wx:if="{{loading}}" class="skeleton skeleton-card"></view>
+
+  <view wx:elif="{{loadError}}" class="error-state" bindtap="onRetry">
+    <view class="error-ic">⚠️</view>
+    <view>网络开小差了，点我重试</view>
+  </view>
+
+  <view wx:elif="{{today.length === 0}}" class="empty">
+    <view class="ic">🗓️</view>
+    <view>今天没有重磅对决，去<text class="empty-link" catchtap="goFinished">『往期战报』</text>回顾经典吧</view>
+  </view>
+
+  <block wx:else>
+    <!-- HERO 焦点卡:首张(sortToday 已把 live 置顶,否则为最近一场) -->
+    <view wx:if="{{heroMatch}}"
+          class="hero-card {{heroMatch.status === 'live' ? 'is-live' : ''}} {{heroMatch.status === 'finished' ? 'is-finished' : ''}}"
+          data-id="{{heroMatch.id}}" bindtap="goMatch">
+      <view wx:if="{{heroMatch.status === 'live'}}" class="ribbon"><view class="live-dot"></view>正在直播</view>
+      <view wx:elif="{{heroMatch.status === 'finished'}}" class="ribbon ribbon-soft">今日焦点</view>
+      <view wx:else class="ribbon ribbon-soon">即将开赛 · {{heroMatch.kickoff}}</view>
+
+      <view class="hero-row">
+        <view class="hero-side">
+          <template is="flag" data="{{flag: heroMatch.home_flag, size: 'lg'}}" />
+          <text class="hero-team">{{heroMatch.home_team}}</text>
+        </view>
+
+        <view class="hero-spine">
+          <block wx:if="{{heroMatch.status === 'live' || heroMatch.status === 'finished'}}">
+            <view class="hero-score {{heroMatch.scoreBump ? 'score-bump' : ''}}">
+              <text class="num">{{heroMatch.home_score}}</text>
+              <text class="colon">:</text>
+              <text class="num">{{heroMatch.away_score}}</text>
+            </view>
+          </block>
+          <text wx:else class="hero-vs">VS</text>
+          <text class="hero-sub">{{heroMatch.comp}}</text>
+        </view>
+
+        <view class="hero-side">
+          <template is="flag" data="{{flag: heroMatch.away_flag, size: 'lg'}}" />
+          <text class="hero-team">{{heroMatch.away_team}}</text>
+        </view>
+      </view>
+
+      <view class="hero-cta">
+        <view wx:if="{{heroMatch.status === 'live'}}" class="btn-primary">进直播间看战报 ›</view>
+        <view wx:elif="{{heroMatch.status === 'finished'}}" class="btn-primary">看战报 ›</view>
+        <view wx:else class="btn-ghost" data-id="{{heroMatch.id}}" catchtap="toggleReminder">🔔 开赛提醒</view>
+      </view>
+    </view>
+
+    <!-- 今天其余比赛 -->
+    <block wx:for="{{restToday}}" wx:key="id" wx:for-index="idx">
+      <template is="vsCard" data="{{item, idx,
+        mode: (item.status === 'live' || item.status === 'finished') ? 'score' : 'vs',
+        right: item.status === 'live' ? 'live' : item.status === 'finished' ? 'finished' : 'bell'}}" />
+    </block>
+  </block>
+
+  <!-- 近期赛程 -->
+  <block wx:if="{{upcoming.length}}">
+    <view class="section-title">近期赛程</view>
+    <block wx:for="{{upcoming}}" wx:key="id" wx:for-index="idx">
+      <template is="vsCard" data="{{item, idx, mode: 'vs', right: 'bell'}}" />
+    </block>
+  </block>
+
+  <!-- 往期战报 -->
+  <block wx:if="{{finished.length}}">
+    <view class="section-title" id="sec-finished">往期战报</view>
+    <block wx:for="{{finished}}" wx:key="id" wx:for-index="idx">
+      <template is="vsCard" data="{{item, idx, mode: 'score', right: 'finished'}}" />
+    </block>
+  </block>
+
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>

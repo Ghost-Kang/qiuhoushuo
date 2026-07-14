@@ -1,0 +1,8 @@
+.cs { text-align: center; padding: var(--sp-6) var(--sp-5); }
+.cs-ic { font-size: 96rpx; line-height: 1; margin-bottom: var(--sp-3); }
+.cs-title { font-size: var(--fs-body); color: var(--text); font-weight: var(--fw-semi); }
+.cs-sub { font-size: var(--fs-sm); color: var(--text-muted); margin: 16rpx auto 0; line-height: 1.7; max-width: 560rpx; }
+/* 复用全局 .btn-primary,补 button 重置 + 居中 */
+.cs-btn { display: flex; width: 70%; max-width: 520rpx; margin: var(--sp-5) auto 0; }
+.cs-btn::after { border: none; }
+.cs-tip { font-size: var(--fs-2xs); color: var(--text-faint); margin-top: 20rpx; }

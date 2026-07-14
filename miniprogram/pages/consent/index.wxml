@@ -1,0 +1,18 @@
+<view class="consent">
+  <view class="consent-inner">
+    <view class="brand">超帧球后说</view>
+    <view class="c-title">欢迎使用超帧球后说</view>
+    <view class="c-body">
+      在开始前,请阅读并同意
+      <text class="c-link" data-doc="agreement" catchtap="openDoc">《用户协议》</text>
+      和
+      <text class="c-link" data-doc="privacy" catchtap="openDoc">《隐私政策》</text>。
+      我们仅在你授权后收集必要信息;球迷形象的人脸采集会另行单独征得你的同意。你可自主选择是否同意,不同意可退出。
+    </view>
+    <view class="c-actions">
+      <view class="c-btn c-reject" catchtap="onDisagree">不同意</view>
+      <view class="c-btn c-agree" catchtap="onAgree">同意并开始</view>
+    </view>
+    <view class="c-foot">超帧球后说 · 以线上公示为准</view>
+  </view>
+</view>

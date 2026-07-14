@@ -1,0 +1,14 @@
+<view wx:if="{{visible}}" class="pp-mask" catchtap="noop">
+  <view class="pp-card" catchtap="noop">
+    <view class="pp-title">隐私保护提示</view>
+    <view class="pp-body">
+      为给你提供球迷形象生成、图片保存等功能，我们将在你授权后使用相册/相机等能力。请阅读
+      <text class="pp-link" catchtap="openContract">《用户隐私保护指引》</text>，
+      你也可查看完整<text class="pp-link" catchtap="openPrivacyPage">隐私政策</text>。同意后方可继续使用相关功能。
+    </view>
+    <view class="pp-actions">
+      <view class="pp-btn pp-reject" catchtap="onDisagree">拒绝</view>
+      <button id="agree-btn" class="pp-btn pp-agree" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="onAgree">同意</button>
+    </view>
+  </view>
+</view>

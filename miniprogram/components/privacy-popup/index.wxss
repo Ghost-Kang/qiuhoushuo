@@ -1,0 +1,66 @@
+.pp-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0 60rpx;
+}
+.pp-card {
+  width: 100%;
+  max-width: 620rpx;
+  background: #1a1d22;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  border-radius: 24rpx;
+  padding: 40rpx 36rpx 28rpx;
+}
+.pp-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+}
+.pp-body {
+  margin-top: 24rpx;
+  font-size: 27rpx;
+  line-height: 1.75;
+  color: #c4ccd6;
+}
+.pp-link {
+  color: #00e5ff;
+}
+.pp-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 36rpx;
+}
+.pp-btn {
+  flex: 1;
+  text-align: center;
+  padding: 22rpx 0;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+}
+.pp-reject {
+  background: rgba(255, 255, 255, 0.08);
+  color: #c4ccd6;
+}
+.pp-agree {
+  background: #00e5ff;
+  color: #04141a;
+  font-weight: 600;
+}
+/* 同意必须是真实 <button>:抹平微信按钮默认样式,视觉与 .pp-btn 一致 */
+button.pp-agree {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 30rpx;
+}
+button.pp-agree::after {
+  border: none;
+}
+.pp-btn:active {
+  opacity: 0.8;
+}

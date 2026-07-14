@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="hint">32强 → 决赛 · 北京时间 · 数据随赛程自动更新</view>
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll">
+    <view wx:if="{{loading}}" class="loading">对阵图加载中…</view>
+    <image src="{{imgUrl}}" mode="widthFix" class="bracket-img" bindload="onImgLoad" binderror="onImgError" show-menu-by-longpress />
+    <view class="tip">下拉刷新拿最新比分 · 长按图片也可保存</view>
+    <view class="footer-pad"></view>
+  </scroll-view>
+  <view class="save-bar">
+    <button class="save-btn" bindtap="saveImg" hover-class="save-btn-hover">保存图片 · 分享</button>
+  </view>
+</view>

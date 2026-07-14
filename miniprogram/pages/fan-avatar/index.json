@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "球迷形象",
+  "backgroundColor": "#0a0a0a",
+  "backgroundColorTop": "#0a0a0a",
+  "backgroundColorBottom": "#0a0a0a",
+  "usingComponents": {
+    "privacy-popup": "/components/privacy-popup/index",
+    "agreement-gate": "/components/agreement-gate/index"
+  }
+}

@@ -1,0 +1,11 @@
+<!-- 全局复用的国旗徽章模板。用法:<import src="/templates/flag.wxml"/> 后 -->
+<!-- <template is="flag" data="{{flag: item.home_flag, size: 'md'}}"/>  (size: sm|md|lg) -->
+<!-- flag = { code, emoji },code 走国旗图(qiuhoushuo.com/flags/<code>.png),空则回退 emoji。 -->
+<!-- 样式见 app.wxss(.flag/.flag-sm/.flag-md/.flag-lg…),各页可再覆写(如 live 红环)。 -->
+<template name="flag">
+  <view class="flag flag-{{size}}">
+    <image wx:if="{{flag.code}}" class="flag-img" src="https://qiuhoushuo.com/flags/{{flag.code}}.png" mode="aspectFill" lazy-load="true" />
+    <text wx:else class="flag-emoji">{{flag.emoji}}</text>
+    <view class="flag-ring"></view>
+  </view>
+</template>

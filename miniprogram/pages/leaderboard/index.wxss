@@ -1,0 +1,31 @@
+.lb-page { padding: var(--sp-4); min-height: 100vh; box-sizing: border-box; }
+
+/* 射手榜/助攻榜切换 */
+.seg { display: flex; background: var(--surface); border-radius: var(--r-pill); padding: 6rpx; }
+.seg-item { flex: 1; text-align: center; height: 72rpx; line-height: 72rpx; border-radius: var(--r-pill); color: var(--text-muted); font-size: var(--fs-body); font-weight: var(--fw-semi); }
+.seg-item.on { background: var(--surface-2); color: var(--text); }
+.asof { text-align: right; color: var(--text-faint); font-size: var(--fs-2xs); margin: var(--sp-2) 0; }
+
+.state { text-align: center; color: var(--text-muted); padding: 80rpx 0; font-size: var(--fs-sm); }
+.lb-swiper { width: 100%; }
+
+/* 榜单行 */
+.row { display: flex; align-items: center; padding: var(--sp-3) var(--sp-2); border-bottom: 1rpx solid var(--hairline); }
+.row.head { color: var(--text-faint); font-size: var(--fs-2xs); border-bottom: none; padding-bottom: var(--sp-1); }
+.row.top3 { background: var(--surface); border-radius: var(--r-md); border-bottom: none; margin-bottom: 6rpx; }
+.c-rank { width: 56rpx; text-align: center; color: var(--text-muted); font-size: var(--fs-sm); font-weight: var(--fw-bold); }
+.rank-1 { color: #FFC857; } .rank-2 { color: #D7DEE8; } .rank-3 { color: #E0A06A; }
+.c-flag { width: 56rpx; display: flex; justify-content: center; }
+.c-name { flex: 1; min-width: 0; display: flex; flex-direction: column; padding-left: var(--sp-2); }
+.c-name .nm { font-size: var(--fs-body); font-weight: var(--fw-bold); color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c-name .tm { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: 2rpx; }
+.c-num { display: flex; align-items: baseline; }
+.num { font-size: 48rpx; font-weight: var(--fw-black); }
+.num.gold { color: #FFC857; } .num.cyan { color: var(--brand); }
+.unit { color: var(--text-muted); font-size: var(--fs-2xs); margin-left: 4rpx; }
+
+/* 下载区 */
+.dl { margin-top: var(--sp-5); text-align: center; }
+.dl-hint { color: var(--text-faint); font-size: var(--fs-2xs); margin-bottom: var(--sp-2); }
+.dl-btn { display: inline-block; padding: 0 var(--sp-5); height: 80rpx; line-height: 80rpx; border-radius: var(--r-pill); background: var(--surface-2); border: 1rpx solid var(--brand); color: var(--brand); font-size: var(--fs-body); font-weight: var(--fw-semi); }
+.foot-note { text-align: center; color: var(--text-faint); font-size: var(--fs-2xs); margin-top: var(--sp-4); }

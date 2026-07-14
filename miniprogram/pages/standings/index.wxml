@@ -1,0 +1,90 @@
+<import src="/templates/flag.wxml" />
+
+<view class="st-page">
+  <view wx:if="{{loading}}" class="state">加载中…</view>
+  <view wx:elif="{{loadError}}" class="state" bindtap="load">加载失败,点我重试</view>
+
+  <block wx:else>
+    <!-- [B] 12 组导航:横向 scroll-view + chip,激活自动滚入视野 -->
+    <scroll-view class="grp-nav" scroll-x scroll-with-animation scroll-into-view="chip-{{current}}" show-scrollbar="{{false}}">
+      <view wx:for="{{groups}}" wx:key="id" id="chip-{{index}}"
+            class="grp-chip {{index === current ? 'on' : ''}}" data-index="{{index}}" bindtap="onTabTap">{{item.id}} 组</view>
+    </scroll-view>
+
+    <!-- [C] swiper:每组一屏 -->
+    <swiper class="grp-swiper" current="{{current}}" bindchange="onSwiperChange" duration="280" circular="{{false}}" style="height:{{swiperH}}px">
+      <swiper-item wx:for="{{groups}}" wx:key="id" wx:for-item="grp">
+        <view id="gi-{{index}}" class="grp-inner">
+
+          <!-- C1 积分表 -->
+          <view class="legend">
+            <text class="lg q">● 已出线</text><text class="lg t">● 第三名待定</text><text class="lg o">○ 已淘汰</text>
+          </view>
+          <view class="stand-card">
+            <view class="tbl head">
+              <text class="c-rank">#</text><text class="c-flag"></text><text class="c-team">球队</text>
+              <text class="c-p">场</text><text class="c-wdl">胜平负</text><text class="c-gd">净</text><text class="c-pts">分</text>
+            </view>
+            <view wx:for="{{grp.table}}" wx:key="teamZh" wx:for-item="row" class="tbl row rank-{{row.cls}}">
+              <text class="c-rank"><text class="badge">{{row.rank}}</text></text>
+              <view class="c-flag"><template is="flag" data="{{flag: row.flag, size: 'sm'}}" /></view>
+              <view class="c-team">
+                <text class="tnm">{{row.teamZh}}</text>
+                <text wx:if="{{row.qualified}}" class="qchip">已出线</text>
+              </view>
+              <text class="c-p">{{row.played}}</text>
+              <text class="c-wdl">{{row.win}}-{{row.draw}}-{{row.lose}}</text>
+              <text class="c-gd {{row.gdLabel[0] === '-' ? 'neg' : 'pos'}}">{{row.gdLabel}}</text>
+              <text class="c-pts">{{row.points}}</text>
+            </view>
+          </view>
+
+          <!-- C2 晋级后对阵(淘汰赛):每支出线队的去向,对手未抽出则"待定" -->
+          <view class="next-head">晋级后对阵 · 32强赛</view>
+          <block wx:if="{{grp.nextMatches.length}}">
+            <block wx:for="{{grp.nextMatches}}" wx:key="id" wx:for-item="m">
+              <!-- 已抽出对阵 -->
+              <view wx:if="{{m.kind === 'match'}}" class="vs-card">
+                <view class="vs-side {{m.homeIsThisGroup ? 'this' : ''}}">
+                  <template is="flag" data="{{flag: m.homeFlag, size: 'md'}}" />
+                  <text class="vs-team">{{m.homeZh}}</text>
+                </view>
+                <view class="vs-mid">
+                  <text class="vs-vs">VS</text>
+                  <text class="vs-round">{{m.roundZh}}</text>
+                  <text class="vs-time">{{m.dateLabel}}</text>
+                </view>
+                <view class="vs-side {{m.awayIsThisGroup ? 'this' : ''}}">
+                  <template is="flag" data="{{flag: m.awayFlag, size: 'md'}}" />
+                  <text class="vs-team">{{m.awayZh}}</text>
+                </view>
+              </view>
+              <!-- 对手待定 -->
+              <view wx:else class="vs-card tbd">
+                <view class="vs-side this">
+                  <template is="flag" data="{{flag: m.flag, size: 'md'}}" />
+                  <text class="vs-team">{{m.teamZh}}</text>
+                </view>
+                <view class="vs-mid"><text class="vs-vs">VS</text><text class="vs-round">对手待定</text></view>
+                <view class="vs-side"><view class="tbd-mark">?</view><text class="vs-team faint">待抽签</text></view>
+              </view>
+            </block>
+            <view class="next-note">注:32 强对阵随各组赛果与抽签逐步确定,榜首对手常为"最佳第三名",抽出后即显示。</view>
+          </block>
+          <view wx:else class="vs-empty">本组尚未决出出线队,对阵待定</view>
+
+        </view>
+      </swiper-item>
+    </swiper>
+
+    <!-- [D] 下载区 -->
+    <view class="st-foot">
+      <view class="foot-l">
+        <text class="page">当前 {{groups[current].id}} 组 · {{current+1}}/{{groups.length}}</text>
+        <text class="hint">想发群里晒一眼?存成图片再分享</text>
+      </view>
+      <view class="save" bindtap="saveCurrentGroup">⬇ 存图分享</view>
+    </view>
+    <view wx:if="{{asof}}" class="asof">积分/排名来自第三方足球数据源 · 数据截至 {{asof}}</view>
+  </block>
+</view>

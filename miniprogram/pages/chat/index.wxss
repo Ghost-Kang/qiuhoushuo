@@ -1,0 +1,7 @@
+.hero { padding: 48rpx 0; }
+.title { font-size: 48rpx; font-weight: 900; }
+.sub { font-size: 26rpx; color: #8b97a8; margin-top: 8rpx; }
+.empty { padding: 96rpx 0; text-align: center; color: #8b97a8; }
+.room { background: rgba(255,255,255,0.04); border-radius: 24rpx; padding: 32rpx; margin-bottom: 16rpx; }
+.match { font-size: 32rpx; font-weight: 600; }
+.online { font-size: 22rpx; color: #00E5FF; margin-top: 8rpx; }

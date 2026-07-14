@@ -1,0 +1,82 @@
+# 球后说 · 单机部署（迁腾讯云）
+# 详 tasks/TENCENT-CLOUD-MIGRATION-PLAN-2026-06-02.md
+#
+# 数据层 = 自托管 Postgres + PostgREST（方案①，详见同文档 §4）：
+#   app 用 Supabase 数据 API（PostgREST），不用 Auth/Realtime/Storage。
+#   ⚠️ supabase-js 默认打 /rest/v1/*，自托管 PostgREST 服务在根路径 →
+#   需 pgproxy(nginx) 补 /rest/v1 路由层（= Supabase 云 Kong 的等价物）。F51（6/4）。
+# 变量来自同目录 .env（gitignored）：POSTGRES_PASSWORD / AUTHENTICATOR_PASSWORD / PGRST_JWT_SECRET
+
+name: qiuhoushuo
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # 兼容层（含 __AUTHPW__ 替换后的随机密码，setup-db.sh 生成）+ 业务 schema
+      - ./deploy/db-init.gen.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+      - ./web/db/schema.sql:/docker-entrypoint-initdb.d/10-schema.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  postgrest:
+    image: postgrest/postgrest:v12.2.3
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${AUTHENTICATOR_PASSWORD}@postgres:5432/postgres
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${PGRST_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3001:3000" # 仅本机；web 容器走内网 http://postgrest:3000
+    restart: unless-stopped
+
+  # F51 修复：把 supabase-js 的 /rest/v1/* 重写到 PostgREST 根路径
+  pgproxy:
+    image: nginx:alpine
+    volumes:
+      - ./deploy/pgproxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - postgrest
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: qiuhoushuo:latest
+    # 老李 reel 合成跑 ffmpeg 多输入,限内存:OOM 时只杀重启 web、不波及同机 postgres。
+    mem_limit: 1500m
+    env_file:
+      - web/.env.production
+    environment:
+      # F51：经 pgproxy 反代，supabase-js 的 /rest/v1/* 才能打到 PostgREST 根
+      SUPABASE_URL: http://pgproxy
+      USE_DB: "true"
+    depends_on:
+      - postgrest
+      - pgproxy
+    ports:
+      - "127.0.0.1:3000:3000"
+      # 公测收口：8080 仅保留本机 localhost，供 cron/排查使用；公网统一走 Nginx/HTTPS。
+      - "127.0.0.1:8080:3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/pay').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  pgdata:

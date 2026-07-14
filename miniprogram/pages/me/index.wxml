@@ -1,0 +1,48 @@
+<view class="container">
+  <agreement-gate />
+  <view class="profile">
+    <view class="nick">{{user.nickname || '老铁'}}</view>
+    <view class="hint">收藏金句、看付费记录</view>
+  </view>
+  <view wx:if="{{minorNotice}}" class="minor-notice">{{minorNotice}}</view>
+  <view class="menu">
+    <view class="row tappable" bindtap="toggleQuotes"><text>收藏金句</text><text class="row-val">{{savedQuotes.length}}</text></view>
+    <view class="row tappable" bindtap="togglePayments"><text>付费记录</text><text class="row-val">{{payments.length}}</text></view>
+    <view class="row tappable" bindtap="goCustomerService"><text>客服 / 反馈</text></view>
+  </view>
+
+  <!-- 收藏金句列表:点「收藏金句」行展开;空态给引导;每条点回战报、长项右侧可删除 -->
+  <view class="quotes-list" wx:if="{{showQuotes}}">
+    <view wx:if="{{savedQuotes.length === 0}}" class="quotes-empty">还没有收藏。看战报时点「收藏金句」,这里就能回看。</view>
+    <view class="quote-item" wx:for="{{savedQuotes}}" wx:key="ts" data-id="{{item.reportId}}" bindtap="goQuoteReport">
+      <view class="quote-text">{{item.text}}</view>
+      <view class="quote-foot">
+        <text class="quote-src">{{item.title}}</text>
+        <text class="quote-del" data-idx="{{index}}" catchtap="removeQuote">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 付费记录明细:点上方「付费记录」行展开/收起;只展示成功订单(服务端已过滤 status=success);空态给提示 -->
+  <view class="bills" wx:if="{{showPayments}}">
+    <view wx:if="{{payments.length === 0}}" class="quotes-empty">还没有付费记录。</view>
+    <view class="bill" wx:for="{{payments}}" wx:key="id">
+      <view class="bill-line">
+        <text class="bill-sku">{{item.label || item.sku}}</text>
+        <text class="bill-amount">¥{{item.amount}}</text>
+      </view>
+      <view class="bill-date">{{item.paid_at}}</view>
+    </view>
+  </view>
+
+  <view class="legal">
+    <view>超帧球后说 · 以线上公示为准</view>
+    <view class="legal-links">
+      <text class="legal-link" data-doc="agreement" catchtap="openLegal">《用户协议》</text>
+      <text class="legal-link" data-doc="privacy" catchtap="openLegal">《隐私政策》</text>
+      <text class="legal-link" data-doc="minor" catchtap="openLegal">《未成年人保护》</text>
+    </view>
+    <view>本应用 AI 生成内容均已显著标识，请理性甄别</view>
+  </view>
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>

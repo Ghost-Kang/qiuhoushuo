@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "超帧球后说",
+  "backgroundColor": "#0a0a0a",
+  "backgroundColorTop": "#0a0a0a",
+  "backgroundColorBottom": "#0a0a0a",
+  "usingComponents": {
+    "agreement-gate": "/components/agreement-gate/index"
+  }
+}

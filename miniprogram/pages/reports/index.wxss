@@ -1,0 +1,90 @@
+/* 战报列表页 · 视觉系统 v3(去重一场一卡 + 分组 + 比分主视觉抓重点) */
+.header { padding: var(--sp-4) 0 var(--sp-2); }
+.title { font-size: var(--fs-h1); font-weight: var(--fw-black); letter-spacing: -1rpx; }
+
+/* 分组段标题(今天/昨天/更早)——承载原来每卡重复的日期 */
+.section-label {
+  display: flex; align-items: center;
+  margin: var(--sp-4) 0 var(--sp-2);
+  font-size: var(--fs-base); font-weight: var(--fw-black);
+  color: var(--text); letter-spacing: 1rpx;
+}
+.section-label::before {
+  content: ''; width: 8rpx; height: 28rpx; margin-right: 14rpx;
+  border-radius: 4rpx; background: var(--brand);
+}
+.subdate-label {
+  margin: var(--sp-3) 0 var(--sp-1) 2rpx;
+  font-size: var(--fs-2xs); color: var(--text-faint);
+  font-variant-numeric: tabular-nums; letter-spacing: 0.5rpx;
+}
+
+/* 战报卡 */
+.card {
+  position: relative; overflow: hidden;
+  background: var(--surface);
+  border: 1rpx solid var(--hairline);
+  border-radius: var(--r-md);
+  padding: var(--sp-4); margin-bottom: var(--sp-2);
+  transition: transform var(--dur-fast) var(--ease-std);
+}
+.card:active { transform: scale(0.985); }
+
+/* 焦点战大卡 */
+.card-featured {
+  border-color: var(--brand);
+  background: linear-gradient(160deg, rgba(0,229,255,0.10), rgba(255,255,255,0.04));
+  box-shadow: var(--elev-2);
+  padding: var(--sp-5) var(--sp-4);
+}
+.focus-badge {
+  display: inline-flex; margin-bottom: var(--sp-2);
+  padding: 6rpx 16rpx; border-radius: var(--r-pill);
+  background: var(--brand); color: var(--accent-ink, #04121a);
+  font-size: var(--fs-2xs); font-weight: var(--fw-black);
+}
+
+/* 比分主视觉:中文队名左右,大比分居中 */
+.score-row {
+  display: flex; align-items: center; justify-content: center;
+}
+.team {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 12rpx;
+}
+.team-name {
+  font-size: var(--fs-h3); font-weight: var(--fw-black); line-height: var(--lh-snug);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+}
+.team-home { justify-content: flex-end; padding-right: var(--sp-3); }
+.team-away { justify-content: flex-start; padding-left: var(--sp-3); }
+.score {
+  flex: none;
+  font-size: var(--fs-h1); font-weight: var(--fw-black);
+  font-variant-numeric: tabular-nums; color: var(--text);
+  white-space: nowrap;
+}
+.card-featured .score { font-size: 64rpx; color: var(--brand); }
+.score-sep { margin: 0 8rpx; color: var(--text-faint); font-weight: var(--fw-semi); }
+
+/* 金句(第二层,截 2 行) */
+.quote {
+  font-size: var(--fs-sm); font-weight: var(--fw-semi);
+  line-height: var(--lh-snug); margin: var(--sp-3) 0 0;
+  padding-left: var(--sp-3); border-left: 4rpx solid var(--brand);
+  color: var(--text-muted);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+}
+
+/* 看点标签(第三层) */
+.tags { display: flex; flex-wrap: wrap; gap: 10rpx; margin-top: var(--sp-3); }
+.tag {
+  padding: 6rpx 14rpx; border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.08); color: var(--text);
+  font-size: var(--fs-2xs); font-weight: var(--fw-semi);
+}
+
+/* 骨架屏新形态(段标题条 + 大卡 + 标准卡) */
+.skeleton-label { height: 32rpx; width: 120rpx; margin: var(--sp-4) 0 var(--sp-2); }
+.skeleton-card-lg { height: 220rpx; }
+/* 通用 skeleton / 空态 / 错误态走全局 app.wxss */

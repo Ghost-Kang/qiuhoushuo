@@ -1,0 +1,102 @@
+{
+  "id": "m01",
+  "competition": "国际大赛小组赛",
+  "stage": "group_stage_round_1",
+  "kickoff_iso": "2022-11-22T10:00:00Z",
+  "venue_city": "Lusail",
+  "home": {
+    "team": "阿根廷",
+    "team_en": "Argentina",
+    "score": 1,
+    "lineup_formation": "4-2-2-2",
+    "key_players": [
+      "梅西",
+      "劳塔罗·马丁内斯",
+      "迪马利亚",
+      "埃米利亚诺·马丁内斯(GK)"
+    ]
+  },
+  "away": {
+    "team": "沙特阿拉伯",
+    "team_en": "Saudi Arabia",
+    "score": 2,
+    "lineup_formation": "4-4-1-1",
+    "key_players": [
+      "萨利赫·谢赫里",
+      "萨勒姆·道萨里",
+      "穆罕默德·欧瓦伊斯(GK)",
+      "萨勒曼·法拉吉"
+    ]
+  },
+  "stats": {
+    "home_possession": 69,
+    "away_possession": 31,
+    "home_shots": 15,
+    "away_shots": 3,
+    "home_shots_on": 6,
+    "away_shots_on": 2,
+    "home_xg": 2.16,
+    "away_xg": 0.35,
+    "home_pass_acc": 85,
+    "away_pass_acc": 68,
+    "home_corners": 9,
+    "away_corners": 2,
+    "home_fouls": 7,
+    "away_fouls": 21,
+    "home_yellow": 0,
+    "away_yellow": 6,
+    "home_red": 0,
+    "away_red": 0
+  },
+  "key_events": [
+    {
+      "minute": 10,
+      "type": "goal",
+      "team": "home",
+      "player": "梅西",
+      "detail": "点球命中"
+    },
+    {
+      "minute": 45,
+      "type": "substitution",
+      "team": "away",
+      "player": "纳瓦夫·阿贝德",
+      "detail": "换下萨勒曼·法拉吉"
+    },
+    {
+      "minute": 48,
+      "type": "goal",
+      "team": "away",
+      "player": "萨利赫·谢赫里",
+      "detail": "禁区左侧低射远角"
+    },
+    {
+      "minute": 53,
+      "type": "goal",
+      "team": "away",
+      "player": "萨勒姆·道萨里",
+      "detail": "禁区边缘摆脱后兜射"
+    },
+    {
+      "minute": 67,
+      "type": "yellow_card",
+      "team": "away",
+      "player": "阿卜杜勒拉·马尔基",
+      "detail": "中场犯规染黄"
+    },
+    {
+      "minute": 90,
+      "type": "yellow_card",
+      "team": "away",
+      "player": "穆罕默德·欧瓦伊斯",
+      "detail": "补时阶段染黄"
+    }
+  ],
+  "narratives": {
+    "headline_factual": "沙特阿拉伯 2:1 逆转阿根廷，制造小组赛冷门",
+    "tactical_summary": "沙特阿拉伯用高位防线和密集压迫压缩阿根廷前场空间，下半场开局连续两次高质量终结完成反超。",
+    "human_story": "门将穆罕默德·欧瓦伊斯完成多次扑救，帮助球队守住最后阶段的禁区压力。",
+    "stat_anomaly": "阿根廷控球 69% 且 xG 2.16，但沙特阿拉伯仅 0.35 xG 就打进 2 球。"
+  },
+  "trademark_check": "no_official_event_name"
+}

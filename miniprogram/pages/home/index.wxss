@@ -1,0 +1,143 @@
+/* 赛事页 · VS 对决版 v3 — 圆角国旗 + 焦点卡 + 微交互;仅用全局 tokens(+2 派生渐变) */
+
+.container {
+  /* 基于既有 brand/live 的派生渐变,不引入新色系 */
+  --grad-brand: linear-gradient(135deg, var(--brand), #5BF0FF);
+}
+
+/* ============ Hero 标题 ============ */
+.hero { padding: var(--sp-5) 0 var(--sp-4); }
+.brand { font-size: var(--fs-display); font-weight: var(--fw-black); letter-spacing: -1rpx; }
+.slogan { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--sp-1); }
+
+.section-title { font-size: var(--fs-h3); font-weight: var(--fw-bold); margin: var(--sp-5) 0 var(--sp-3); }
+
+.empty { text-align: center; padding: var(--sp-7) var(--sp-5); color: var(--text-faint); font-size: var(--fs-sm); }
+.empty .ic { font-size: 64rpx; margin-bottom: var(--sp-2); }
+.empty-link { color: var(--brand); }
+.error-state { text-align: center; padding: var(--sp-6) var(--sp-5); color: var(--text-muted); font-size: var(--fs-sm); }
+.error-ic { font-size: 56rpx; margin-bottom: var(--sp-2); }
+
+/* 国旗徽章基础样式已提到 app.wxss(全局复用);本页仅覆写 live 红环(见下 .is-live .flag-ring)。 */
+
+/* ============ 标准对决卡 ============ */
+.card {
+  position: relative; overflow: hidden;
+  background: var(--surface); border: 1rpx solid var(--hairline); border-radius: var(--r-md);
+  padding: var(--sp-4) var(--sp-4) var(--sp-3); margin-bottom: var(--sp-3);
+  transition: transform var(--dur-fast) var(--ease-std), background var(--dur-base), border-color var(--dur-base);
+  animation: card-in var(--dur-slow) var(--ease-out) both;
+}
+.card:active { transform: scale(0.98); background: var(--surface-2); }
+
+.card-top { display: flex; align-items: flex-start; }
+.side { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+.team {
+  max-width: 100%; font-size: var(--fs-sm); font-weight: var(--fw-semi); color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
+}
+
+.spine { flex: none; width: 200rpx; display: flex; flex-direction: column; align-items: center; gap: 6rpx; padding-top: 4rpx; }
+.score { display: flex; align-items: baseline; gap: 8rpx; }
+.num { font-size: var(--fs-h2); font-weight: var(--fw-black); color: var(--brand); font-variant-numeric: tabular-nums; line-height: 1; }
+.colon { font-size: var(--fs-h3); font-weight: var(--fw-bold); color: var(--text-muted); }
+.vs {
+  font-size: var(--fs-h3); font-weight: var(--fw-black); letter-spacing: 1rpx;
+  background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.spine-sub {
+  font-size: var(--fs-2xs); color: var(--text-muted); text-align: center; line-height: var(--lh-snug);
+  max-width: 200rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.card-action { display: flex; justify-content: flex-end; margin-top: var(--sp-2); }
+.badge {
+  padding: 12rpx 24rpx; border-radius: var(--r-pill); font-size: var(--fs-xs); font-weight: var(--fw-semi);
+  display: inline-flex; align-items: center; gap: 10rpx; min-height: 56rpx; box-sizing: border-box;
+}
+.badge.live { background: rgba(255,59,92,0.14); color: var(--live); }
+.badge.finished { background: rgba(0,229,255,0.12); color: var(--brand); }
+.live-dot { width: 12rpx; height: 12rpx; border-radius: 50%; background: var(--live); animation: pulse 1.4s var(--ease-std) infinite; }
+.bell {
+  min-height: 88rpx; padding: 0 24rpx; display: inline-flex; align-items: center; justify-content: center; gap: 8rpx;
+  font-size: var(--fs-xs); color: var(--text-muted); border: 1rpx solid var(--hairline); border-radius: var(--r-pill);
+  transition: transform var(--dur-fast) var(--ease-std), border-color var(--dur-base);
+}
+.bell:active { transform: scale(0.94); border-color: var(--hairline-2); }
+
+/* live 卡:红描边 + 中轴比分变红,全列表唯一抢眼 */
+.card.is-live { border-color: rgba(255,59,92,0.42); background: rgba(255,59,92,0.05); }
+.card.is-live .num { color: var(--live); }
+.card.is-live .colon { color: rgba(255,59,92,0.7); }
+.card.is-live .flag-ring { box-shadow: inset 0 0 0 1rpx rgba(255,59,92,0.5), 0 0 16rpx rgba(255,59,92,0.32); }
+
+/* ============ HERO 焦点卡 ============ */
+.hero-card {
+  position: relative; overflow: hidden; border-radius: var(--r-lg);
+  padding: var(--sp-6) var(--sp-4) var(--sp-4); margin-bottom: var(--sp-4);
+  background: var(--surface-2); border: 1rpx solid var(--hairline-2); box-shadow: var(--elev-2);
+  transition: transform var(--dur-fast) var(--ease-std);
+  animation: card-in var(--dur-slow) var(--ease-out) both;
+}
+.hero-card:active { transform: scale(0.99); }
+/* 顶部一道高光,制造"焦点/舞台"观感(单层渐变,无动画成本) */
+.hero-card::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 160rpx;
+  background: radial-gradient(120% 100% at 50% 0%, rgba(0,229,255,0.16), transparent 70%); pointer-events: none;
+}
+.hero-card.is-live { border-color: rgba(255,59,92,0.45); }
+.hero-card.is-live::before { background: radial-gradient(120% 100% at 50% 0%, rgba(255,59,92,0.20), transparent 70%); }
+
+.ribbon {
+  position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 10rpx;
+  padding: 8rpx 20rpx; border-radius: var(--r-pill); font-size: var(--fs-2xs); font-weight: var(--fw-semi);
+  background: rgba(255,59,92,0.16); color: var(--live); margin-bottom: var(--sp-3);
+}
+.ribbon-soon { background: rgba(0,229,255,0.14); color: var(--brand); }
+.ribbon-soft { background: var(--surface); color: var(--text-muted); }
+
+.hero-row { display: flex; align-items: flex-start; position: relative; z-index: 1; }
+.hero-side { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+.hero-team {
+  max-width: 100%; font-size: var(--fs-h3); font-weight: var(--fw-bold); color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
+}
+.hero-spine { flex: none; width: 220rpx; display: flex; flex-direction: column; align-items: center; gap: var(--sp-1); padding-top: 8rpx; }
+.hero-score { display: flex; align-items: baseline; gap: 12rpx; }
+.hero-score .num { font-size: var(--fs-display); }
+.hero-score .colon { font-size: var(--fs-h1); }
+.hero-vs {
+  font-size: var(--fs-h1); font-weight: var(--fw-black); letter-spacing: 2rpx;
+  background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-card.is-live .hero-score .num { color: var(--live); }
+.hero-card.is-live .hero-score .colon { color: rgba(255,59,92,0.7); }
+.hero-card.is-live .flag-ring { box-shadow: inset 0 0 0 1rpx rgba(255,59,92,0.5), 0 0 20rpx rgba(255,59,92,0.4); }
+.hero-sub { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 6rpx; text-align: center; max-width: 220rpx; }
+
+.hero-cta { position: relative; z-index: 1; margin-top: var(--sp-4); }
+.hero-cta .btn-primary, .hero-cta .btn-ghost { width: 100%; box-sizing: border-box; min-height: 88rpx; }
+
+/* ============ 动画 ============ */
+@keyframes card-in { from { opacity: 0; transform: translateY(16rpx); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,59,92,0.5); } 70% { box-shadow: 0 0 0 12rpx rgba(255,59,92,0); } }
+/* 比分变化一次性高亮:JS 加 .score-bump,动画完移除(非持续动画,不计性能预算) */
+.score-bump { animation: score-bump 600ms var(--ease-out); }
+@keyframes score-bump { 0% { transform: scale(1); } 35% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+/* 赛事榜单入口卡:两张等分并排,点进详情(射手榜金调 / 积分榜青调) */
+.lb-row { display: flex; gap: var(--sp-3); align-items: stretch; }
+/* flex:1 1 0 + min-width:0 让两卡严格等分,否则长文案(出线形势+淘汰赛对阵)撑破 flex 项、溢出外框 */
+.lb-card { flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: var(--sp-4); background: var(--surface); border: 1rpx solid var(--hairline); border-radius: var(--r-md); }
+.lb-card:active { transform: scale(0.98); background: var(--surface-2); }
+.lb-emoji { font-size: 44rpx; line-height: 1; margin-bottom: var(--sp-2); }
+.lb-title { font-size: var(--fs-body); font-weight: var(--fw-bold); color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-sub { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: 6rpx; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-score { border-color: rgba(255,200,87,0.35); background: rgba(255,200,87,0.06); }
+.lb-stand { border-color: rgba(0,229,255,0.30); background: rgba(0,229,255,0.05); }
+
+/* 淘汰赛对阵图入口:全宽强调卡(金调,新功能置顶引流) */
+.lb-bracket { display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-3); padding: var(--sp-4); box-sizing: border-box; background: linear-gradient(120deg, rgba(11,58,130,0.35), rgba(255,210,74,0.10)); border: 1rpx solid rgba(255,210,74,0.40); border-radius: var(--r-md); }
+.lb-bracket:active { transform: scale(0.99); }
+.lb-bracket-emoji { font-size: 56rpx; line-height: 1; }
+.lb-bracket-text { flex: 1 1 0; min-width: 0; }

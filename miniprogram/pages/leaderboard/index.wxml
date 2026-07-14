@@ -1,0 +1,52 @@
+<import src="/templates/flag.wxml" />
+
+<!-- 榜单列表(射手榜/助攻榜共用),unit=球/助,color=gold/cyan -->
+<template name="lbList">
+  <view class="row head">
+    <text class="c-rank">#</text><text class="c-flag"></text><text class="c-name">球员</text>
+    <text class="c-num">{{unit === '球' ? '进球' : '助攻'}}</text>
+  </view>
+  <view wx:for="{{list}}" wx:key="name" class="row {{index < 3 ? 'top3' : ''}}">
+    <text class="c-rank rank-{{index + 1}}">{{index + 1}}</text>
+    <view class="c-flag"><template is="flag" data="{{flag: item.flag, size: 'sm'}}" /></view>
+    <view class="c-name">
+      <text class="nm">{{item.name}}</text>
+      <text class="tm">{{item.teamZh}} · {{item.apps}} 场</text>
+    </view>
+    <view class="c-num">
+      <text class="num {{color}}">{{item.count}}</text>
+      <text class="unit">{{unit}}</text>
+    </view>
+  </view>
+</template>
+
+<view class="lb-page">
+  <!-- 顶部:射手榜 / 助攻榜 分段(与 swiper 联动) -->
+  <view class="seg">
+    <view class="seg-item {{current === 0 ? 'on' : ''}}" data-idx="0" bindtap="onTab">射手榜</view>
+    <view class="seg-item {{current === 1 ? 'on' : ''}}" data-idx="1" bindtap="onTab">助攻榜</view>
+  </view>
+  <view wx:if="{{asof}}" class="asof">数据截至 {{asof}} · 左右滑动切换</view>
+
+  <view wx:if="{{loading}}" class="state">加载中…</view>
+  <view wx:elif="{{loadError}}" class="state" bindtap="load">加载失败,点我重试</view>
+
+  <block wx:else>
+    <!-- 左右滑动切换射手榜/助攻榜 -->
+    <swiper class="lb-swiper" current="{{current}}" bindchange="onSwiperChange" duration="280" circular="{{false}}" style="height:{{swiperH}}px">
+      <swiper-item>
+        <view id="li-0"><template is="lbList" data="{{list: scorers, unit: '球', color: 'gold'}}" /></view>
+      </swiper-item>
+      <swiper-item>
+        <view id="li-1"><template is="lbList" data="{{list: assists, unit: '助', color: 'cyan'}}" /></view>
+      </swiper-item>
+    </swiper>
+
+    <!-- 下载区:端内已能看,想分享就存图 -->
+    <view class="dl">
+      <view class="dl-hint">想发群里晒一眼?存成图片再分享</view>
+      <view class="dl-btn" bindtap="saveCard">⬇ 存射手榜·助攻榜图</view>
+    </view>
+    <view class="foot-note">数据来自第三方足球数据源 · AI 生成内容整理</view>
+  </block>
+</view>

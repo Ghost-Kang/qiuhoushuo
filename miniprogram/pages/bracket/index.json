@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "淘汰赛对阵图",
+  "navigationBarBackgroundColor": "#07224D",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#07224D",
+  "enablePullDownRefresh": true
+}

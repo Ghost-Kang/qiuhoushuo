@@ -1,0 +1,16 @@
+<view wx:if="{{visible}}" class="ag-mask" catchtap="noop">
+  <view class="ag-card" catchtap="noop">
+    <view class="ag-title">欢迎使用超帧球后说</view>
+    <view class="ag-body">
+      在开始前,请阅读并同意
+      <text class="ag-link" data-doc="agreement" catchtap="openDoc">《用户协议》</text>
+      和
+      <text class="ag-link" data-doc="privacy" catchtap="openDoc">《隐私政策》</text>。
+      我们仅在你授权后收集必要信息;球迷形象的人脸采集会另行单独征得你的同意。你可自主选择是否同意。
+    </view>
+    <view class="ag-actions">
+      <view class="ag-btn ag-reject" catchtap="onDisagree">不同意</view>
+      <view class="ag-btn ag-agree" catchtap="onAgree">同意并开始</view>
+    </view>
+  </view>
+</view>

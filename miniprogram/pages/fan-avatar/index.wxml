@@ -1,0 +1,152 @@
+<view class="container">
+<agreement-gate />
+
+  <!-- AIGC 显著标识:AI 生成页面顶部强提示(贯穿 entry→result 全步骤),满足微信审核「显著说明 AI 生成」+ 标识办法 -->
+  <view class="aigc-banner">⚡ 内容由 AI 生成 · 人工智能生成</view>
+
+  <!-- Step 0 诱饵:奖励前置,门槛后置 -->
+  <view wx:if="{{step === 'entry'}}" class="step step-entry">
+    <view class="avatar-hero">
+      <view class="hero-title">把自己画成<text class="hero-accent">球迷</text></view>
+      <view class="hero-sub">上传一张照片，AI 把你画成支持球队的插画球迷</view>
+    </view>
+    <!-- 示例成品图自动连续轮播(洗衣机转筒):轨道含两份相同图,CSS marquee 无缝循环 -->
+    <view class="example-marquee">
+      <view class="example-track">
+        <image class="example-img" wx:for="{{exampleLoop}}" wx:key="id" src="{{item.src}}" mode="aspectFill" lazy-load="true" />
+      </view>
+    </view>
+    <button class="btn-primary funnel-cta" bindtap="goTeam">做我的球迷形象 →</button>
+    <!-- 与球星合影入口:服务端 flag 控制,审核期隐藏(连「或」分隔一起隐),过审后翻 flag 即显 -->
+    <view wx:if="{{costarEntry}}" class="entry-or">或</view>
+    <button wx:if="{{costarEntry}}" class="btn-ghost funnel-cta entry-cta-costar" bindtap="goCostar">和喜欢的球星合影 →</button>
+    <view class="trust-line">不建脸库 · 不存原图 · 出图即弃</view>
+  </view>
+
+  <!-- Step 1 选球队(先做轻动作) -->
+  <view wx:elif="{{step === 'team'}}" class="step step-team">
+    <view class="step-back" bindtap="backStep" data-to="entry">‹ 返回</view>
+    <view class="step-title">你支持哪支球队?</view>
+    <view class="team-grid">
+      <view class="team-card {{team === item.name ? 'is-selected' : ''}}" wx:for="{{teamOptions}}" wx:key="name" data-name="{{item.name}}" bindtap="selectTeam">
+        <view class="team-flag">{{item.flag}}</view>
+        <view class="team-name">{{item.name}}</view>
+      </view>
+    </view>
+    <input class="field-input other-team" value="{{team}}" placeholder="其他球队(手动输入)" maxlength="20" bindinput="onOtherTeamInput" />
+    <button class="btn-primary funnel-cta {{team ? '' : 'is-disabled'}}" disabled="{{!team}}" bindtap="goPhoto">下一步 →</button>
+  </view>
+
+  <!-- Step 1b 选球星(costar:与球星合影) -->
+  <view wx:elif="{{step === 'star'}}" class="step step-star">
+    <view class="step-back" bindtap="backStep" data-to="entry">‹ 返回</view>
+    <view class="step-title">想和哪位球星合影?</view>
+    <view class="team-grid">
+      <view class="team-card {{star === item.name ? 'is-selected' : ''}}" wx:for="{{starOptions}}" wx:key="name" data-name="{{item.name}}" bindtap="selectStar">
+        <view class="team-flag">{{item.flag}}</view>
+        <view class="team-name">{{item.name}}</view>
+      </view>
+    </view>
+    <input class="field-input other-team" value="{{star}}" placeholder="其他球星(手动输入)" maxlength="20" bindinput="onOtherStarInput" />
+    <input class="field-input other-team" value="{{team}}" placeholder="球队(球衣)(手动输入)" maxlength="20" bindinput="onOtherTeamInput" />
+    <view class="costar-disclaimer">合影由 AI 合成 · 非本人、非真实合影</view>
+    <button class="btn-primary funnel-cta {{star ? '' : 'is-disabled'}}" disabled="{{!star}}" bindtap="goPhotoFromStar">下一步 →</button>
+  </view>
+
+  <!-- Step 2 选照片(仍未付费/未生成,降低"先看看"心理成本) -->
+  <view wx:elif="{{step === 'photo'}}" class="step step-photo">
+    <view class="step-back" bindtap="backStep" data-to="{{mode === 'costar' ? 'star' : 'team'}}">‹ 返回</view>
+    <view class="step-title">选一张你的照片</view>
+    <view wx:if="{{mode === 'costar'}}" class="costar-target">将与 {{starLabel}} 合影</view>
+    <view class="picker" bindtap="chooseSelfie">
+      <image wx:if="{{selfiePath}}" class="selfie" src="{{selfiePath}}" mode="aspectFill" />
+      <view wx:else class="picker-empty">
+        <view class="picker-plus">+</view>
+        <view class="picker-text">选择照片（小于 4MB）</view>
+      </view>
+    </view>
+    <view class="trust-line">照片只用来这一次生成，出图后立即丢弃，不会上传保存</view>
+
+    <!-- 形象风格选择(仅 solo;costar 走写实合影,无插画风格可选) -->
+    <view wx:if="{{mode === 'solo'}}" class="style-picker">
+      <view class="style-picker-label">选择形象风格</view>
+      <view class="style-tags">
+        <view
+          class="style-tag {{avatarStyle === item.key ? 'is-selected' : ''}}"
+          wx:for="{{styleOptions}}"
+          wx:key="key"
+          data-key="{{item.key}}"
+          bindtap="selectStyle"
+        >{{item.label}}</view>
+      </view>
+    </view>
+
+    <button class="btn-primary funnel-cta {{selfiePath ? '' : 'is-disabled'}}" disabled="{{!selfiePath}}" bindtap="openConfirm">{{mode === 'costar' ? '生成合影 →' : '生成我的形象 →'}}</button>
+  </view>
+
+  <!-- Step 4 生成中(等待不焦虑) -->
+  <view wx:elif="{{step === 'generating'}}" class="step step-generating">
+    <view class="spinner"></view>
+    <view class="gen-title">{{mode === 'costar' ? '正在合成合影…' : '正在为你作画…'}}</view>
+    <view class="gen-sub">{{mode === 'costar' ? ('AI 正在合成你与 ' + starLabel + ' 的合影') : ('AI 正在描绘你的「' + team + '」球迷形象')}} · 大约 10–20 秒</view>
+    <view class="gen-tip">{{genTip}}</view>
+  </view>
+
+  <!-- Step 5 出图(惊喜 + 分享冲动) -->
+  <view wx:elif="{{step === 'result'}}" class="step step-result">
+    <view class="result-cheer">{{mode === 'costar' ? ('你和 ' + starLabel + ' 同框啦 ⚽') : '这就是球场上的你 ⚽'}}</view>
+    <view class="result-card">
+      <image class="result-image" src="{{resultUrl}}" mode="widthFix" show-menu-by-longpress="true" />
+      <view class="result-mark">超帧球后说 · AI 生成</view>
+    </view>
+    <view wx:if="{{mode === 'costar'}}" class="costar-disclaimer result-costar-note">本图由 AI 合成 · 非本人、非真实合影</view>
+    <view class="result-actions">
+      <button class="btn-primary result-save" bindtap="saveResult">保存到相册</button>
+      <button class="btn-ghost result-share" open-type="share">分享给朋友</button>
+    </view>
+    <!-- 引流:发微信/朋友圈用带小程序码版(扫码即进);站外发小红书/抖音请用上面无码版 -->
+    <view wx:if="{{resultUrlQr}}" class="result-wx-save" bindtap="saveResultQr">存微信版 · 带小程序码,扫码即进 →</view>
+    <view class="result-remake" bindtap="remake">再做一张</view>
+  </view>
+
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>
+
+<!-- Step 3 确认半屏:合规同意 + 付费 合并(付费体验命门) -->
+<view wx:if="{{showConfirm}}" class="confirm-mask" bindtap="closeConfirm">
+  <view class="confirm-sheet" catchtap="noop">
+    <view class="sheet-grabber"></view>
+    <view class="confirm-title">{{mode === 'costar' ? '生成你与球星的合影' : '生成你的专属球迷形象'}}</view>
+    <view class="confirm-preview">
+      <image wx:if="{{selfiePath}}" class="confirm-thumb" src="{{selfiePath}}" mode="aspectFill" />
+      <view class="confirm-meta">
+        <view class="confirm-team">{{mode === 'costar' ? ('与 ' + starLabel + ' 合影') : (team + ' 球迷')}}</view>
+        <view class="confirm-style">{{mode === 'costar' ? '写实合影 · 含 AI 生成标识' : (avatarStyleLabel + ' · 含 AI 生成标识')}}</view>
+      </view>
+    </view>
+    <view class="confirm-divider"></view>
+    <view class="consent-fold">
+      <view class="consent-fold-head" bindtap="toggleConsentDetail">
+        <text>照片如何被使用</text>
+        <text class="consent-fold-toggle">{{consentDetail ? '收起 ▴' : '查看详情 ▾'}}</text>
+      </view>
+      <view class="consent-summary">· 仅用于本次生成，出图即弃，不留底</view>
+      <block wx:if="{{consentDetail}}">
+        <view class="consent-detail">· 照片仅用于本次形象生成，生成完成即丢弃，不会被保存</view>
+        <view class="consent-detail">{{mode === 'costar' ? '· 结果为 AI 合成的合影图(非本人、非真实合影)，自动带 AI 生成标识水印' : '· 生成结果为卡通插画风格，自动带 AI 生成标识水印'}}</view>
+        <view class="consent-detail">· 未成年人账号不可使用本功能</view>
+      </block>
+    </view>
+    <checkbox-group bindchange="onConsentChange">
+      <label class="consent">
+        <checkbox value="agree" checked="{{consent}}" />
+        <text class="consent-text">{{mode === 'costar' ? '我已阅读上方说明，同意将本张照片用于本次 AI 合影生成' : '我已阅读上方说明，同意将本张照片用于本次球迷形象生成'}}</text>
+      </label>
+    </checkbox-group>
+    <view class="price-line" wx:if="{{payLive && !isIOS}}">¥1 生成你的专属球迷形象 · 照片用完即焚不留底</view>
+    <button class="btn-primary confirm-cta" bindtap="onConfirmCta">{{payLive && !isIOS ? '同意并支付 ¥1 生成' : '同意并生成'}}</button>
+    <view class="confirm-dismiss" bindtap="closeConfirm">稍后再说</view>
+  </view>
+</view>
+
+<privacy-popup />

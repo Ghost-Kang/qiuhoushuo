@@ -1,0 +1,102 @@
+{
+  "id": "m04",
+  "competition": "国际大赛 16 强",
+  "stage": "round_of_16",
+  "kickoff_iso": "2022-12-05T15:00:00Z",
+  "venue_city": "Al Wakrah",
+  "home": {
+    "team": "日本",
+    "team_en": "Japan",
+    "score": 1,
+    "lineup_formation": "3-4-3",
+    "key_players": [
+      "前田大然",
+      "堂安律",
+      "吉田麻也",
+      "权田修一(GK)"
+    ]
+  },
+  "away": {
+    "team": "克罗地亚",
+    "team_en": "Croatia",
+    "score": 1,
+    "lineup_formation": "4-3-3",
+    "key_players": [
+      "佩里西奇",
+      "莫德里奇",
+      "布罗佐维奇",
+      "利瓦科维奇(GK)"
+    ]
+  },
+  "stats": {
+    "home_possession": 42,
+    "away_possession": 58,
+    "home_shots": 13,
+    "away_shots": 17,
+    "home_shots_on": 4,
+    "away_shots_on": 4,
+    "home_xg": 1.51,
+    "away_xg": 1.57,
+    "home_pass_acc": 75,
+    "away_pass_acc": 84,
+    "home_corners": 8,
+    "away_corners": 5,
+    "home_fouls": 13,
+    "away_fouls": 16,
+    "home_yellow": 0,
+    "away_yellow": 2,
+    "home_red": 0,
+    "away_red": 0
+  },
+  "key_events": [
+    {
+      "minute": 43,
+      "type": "goal",
+      "team": "home",
+      "player": "前田大然",
+      "detail": "门前混战中近距离破门"
+    },
+    {
+      "minute": 55,
+      "type": "goal",
+      "team": "away",
+      "player": "佩里西奇",
+      "detail": "禁区内头球扳平"
+    },
+    {
+      "minute": 64,
+      "type": "substitution",
+      "team": "home",
+      "player": "三笘薰",
+      "detail": "替补登场加强边路推进"
+    },
+    {
+      "minute": 90,
+      "type": "yellow_card",
+      "team": "away",
+      "player": "科瓦契奇",
+      "detail": "战术犯规染黄"
+    },
+    {
+      "minute": 116,
+      "type": "yellow_card",
+      "team": "away",
+      "player": "巴里希奇",
+      "detail": "加时赛末段染黄"
+    },
+    {
+      "minute": 121,
+      "type": "penalty_shootout",
+      "team": "away",
+      "player": "帕萨利奇",
+      "detail": "点球大战最后一轮罚入，克罗地亚胜出"
+    }
+  ],
+  "narratives": {
+    "headline_factual": "日本 1:1 战平克罗地亚，点球大战惜败",
+    "tactical_summary": "日本依靠定位球和边路冲击先手得分，克罗地亚用更稳定的控球和传中质量把比赛拖入加时。",
+    "human_story": "利瓦科维奇在点球大战连续扑出日本前三轮中的两次射门，成为晋级关键人物。",
+    "stat_anomaly": "双方 xG 几乎持平，日本射正和角球不落下风，但点球大战效率决定结果。"
+  },
+  "trademark_check": "no_official_event_name"
+}

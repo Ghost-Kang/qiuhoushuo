@@ -1,0 +1,63 @@
+.st-page { padding: var(--sp-3) var(--sp-4); min-height: 100vh; box-sizing: border-box; }
+.state { text-align: center; color: var(--text-muted); padding: 80rpx 0; font-size: var(--fs-sm); }
+
+/* [B] 12 组导航条 */
+.grp-nav { white-space: nowrap; padding: var(--sp-2) 0; }
+.grp-chip { display: inline-block; min-width: 96rpx; height: 56rpx; line-height: 56rpx; text-align: center;
+  margin-right: var(--sp-2); padding: 0 var(--sp-3); border-radius: var(--r-pill);
+  border: 1rpx solid var(--hairline-2); color: var(--text-muted); font-size: var(--fs-sm); }
+.grp-chip.on { color: var(--brand); border-color: var(--brand); background: var(--surface-2); font-weight: var(--fw-semi); }
+
+/* [C] swiper */
+.grp-swiper { width: 100%; }
+.grp-inner { padding-top: var(--sp-2); }
+
+.legend { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-2); font-size: var(--fs-2xs); }
+.legend .q { color: #00D982; } .legend .t { color: #FFC857; } .legend .o { color: var(--text-faint); }
+
+/* 积分表 */
+.stand-card { background: var(--surface); border-radius: var(--r-lg); padding: var(--sp-3); }
+.tbl { display: flex; align-items: center; }
+.tbl.head { color: var(--text-faint); font-size: var(--fs-2xs); padding-bottom: var(--sp-2); }
+.tbl.row { padding: var(--sp-2) 0; border-top: 1rpx solid var(--hairline); position: relative; }
+.c-rank { width: 52rpx; text-align: center; }
+.badge { display: inline-block; min-width: 36rpx; height: 36rpx; line-height: 36rpx; border-radius: 8rpx; font-size: var(--fs-2xs); font-weight: var(--fw-bold); color: var(--text-muted); }
+.c-flag { width: 48rpx; display: flex; justify-content: center; }
+.c-team { flex: 1; min-width: 0; display: flex; align-items: center; padding-left: var(--sp-2); }
+.tnm { font-size: var(--fs-sm); font-weight: var(--fw-semi); color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qchip { flex-shrink: 0; margin-left: var(--sp-2); padding: 0 10rpx; height: 30rpx; line-height: 30rpx; border-radius: 6rpx; background: rgba(0,217,130,0.16); color: #00D982; font-size: 18rpx; }
+.c-p { width: 40rpx; text-align: center; color: var(--text-muted); font-size: var(--fs-2xs); }
+.c-wdl { width: 96rpx; text-align: center; color: var(--text-muted); font-size: var(--fs-2xs); }
+.c-gd { width: 52rpx; text-align: center; font-size: var(--fs-2xs); }
+.c-gd.pos { color: var(--brand); } .c-gd.neg { color: var(--text-faint); }
+.c-pts { width: 52rpx; text-align: center; font-size: var(--fs-body); font-weight: var(--fw-black); color: var(--text); }
+
+/* 出线区染色:只染名次徽标 + 左竖条 */
+.rank-q .badge { background: #00D982; color: #04130C; }
+.rank-q::before { content: ''; position: absolute; left: 0; top: 10rpx; bottom: 10rpx; width: 4rpx; background: #00D982; }
+.rank-t .badge { background: #FFC857; color: #2A1E00; }
+.rank-t::before { content: ''; position: absolute; left: 0; top: 10rpx; bottom: 10rpx; width: 4rpx; background: #FFC857; }
+.rank-o { opacity: 0.7; }
+
+/* [C2] 晋级后对阵 */
+.next-head { margin: var(--sp-4) 0 var(--sp-2); color: var(--text-faint); font-size: var(--fs-2xs); }
+.vs-card { display: flex; align-items: center; background: var(--surface); border-radius: var(--r-md); padding: var(--sp-3); margin-bottom: var(--sp-2); }
+.vs-side { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6rpx; }
+.vs-side.this .vs-team { color: var(--brand); }
+.vs-team { font-size: var(--fs-sm); font-weight: var(--fw-semi); text-align: center; }
+.vs-mid { width: 150rpx; text-align: center; display: flex; flex-direction: column; }
+.vs-vs { color: var(--brand); font-weight: var(--fw-black); font-size: var(--fs-body); }
+.vs-round { color: var(--text-muted); font-size: var(--fs-2xs); margin-top: 2rpx; }
+.vs-time { color: var(--text-faint); font-size: var(--fs-2xs); }
+.vs-empty { text-align: center; color: var(--text-faint); font-size: var(--fs-2xs); padding: var(--sp-4) 0; }
+.vs-card.tbd { border: 1rpx dashed var(--hairline-2); background: transparent; }
+.vs-team.faint { color: var(--text-faint); }
+.tbd-mark { width: 56rpx; height: 56rpx; line-height: 56rpx; text-align: center; border-radius: 50%; border: 1rpx dashed var(--text-faint); color: var(--text-faint); font-size: var(--fs-body); font-weight: var(--fw-bold); }
+.next-note { color: var(--text-faint); font-size: var(--fs-2xs); line-height: 1.5; margin-top: var(--sp-2); }
+
+/* [D] 下载区 */
+.st-foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--sp-3); }
+.page { color: var(--text-muted); font-size: var(--fs-2xs); display: block; }
+.hint { color: var(--text-faint); font-size: var(--fs-2xs); }
+.save { flex-shrink: 0; padding: 0 var(--sp-4); height: 72rpx; line-height: 72rpx; border-radius: var(--r-pill); background: var(--surface-2); border: 1rpx solid var(--brand); color: var(--brand); font-size: var(--fs-sm); font-weight: var(--fw-semi); }
+.asof { text-align: center; color: var(--text-faint); font-size: var(--fs-2xs); margin-top: var(--sp-3); }

@@ -1,0 +1,61 @@
+<!-- 战报卡片模板:国旗+中文队名+大比分 > 金句 > 看点标签。featured=焦点战(加徽标/更大)。 -->
+<agreement-gate />
+<import src="/templates/flag.wxml" />
+<template name="report-card">
+  <view class="card {{featured ? 'card-featured' : ''}}" bindtap="goReport" data-id="{{short_code}}">
+    <view wx:if="{{featured}}" class="focus-badge">🔥 焦点战</view>
+    <view class="score-row">
+      <view class="team team-home">
+        <template is="flag" data="{{flag: home_flag, size: 'sm'}}" />
+        <text class="team-name">{{home_team}}</text>
+      </view>
+      <text class="score">{{home_score}}<text class="score-sep">:</text>{{away_score}}</text>
+      <view class="team team-away">
+        <template is="flag" data="{{flag: away_flag, size: 'sm'}}" />
+        <text class="team-name">{{away_team}}</text>
+      </view>
+    </view>
+    <view wx:if="{{share_quote}}" class="quote">{{share_quote}}</view>
+    <view wx:if="{{tags.length}}" class="tags">
+      <text wx:for="{{tags}}" wx:for-item="tag" wx:key="*this" class="tag">{{tag}}</text>
+    </view>
+  </view>
+</template>
+
+<view class="container">
+  <view class="header"><view class="title">最近战报</view></view>
+
+  <block wx:if="{{loading}}">
+    <view class="skeleton skeleton-label"></view>
+    <view class="skeleton skeleton-card-lg"></view>
+    <view class="skeleton skeleton-card"></view>
+    <view class="skeleton skeleton-card"></view>
+  </block>
+
+  <view wx:elif="{{loadError}}" class="error-state" bindtap="onRetry">
+    <view class="error-ic">⚠️</view>
+    <view>加载失败，点我重试</view>
+  </view>
+
+  <view wx:elif="{{groups.length === 0}}" class="empty">
+    <view class="ic">📋</view>
+    <view>还没有战报，赛后两分钟见</view>
+  </view>
+
+  <block wx:else>
+    <block wx:for="{{groups}}" wx:key="key" wx:for-item="group">
+      <view class="section-label">{{group.label}}</view>
+      <!-- 焦点战(仅今天组可能有) -->
+      <template wx:if="{{group.featured}}" is="report-card" data="{{...group.featured, featured: true}}" />
+      <!-- 今天/昨天:标准卡 -->
+      <template wx:for="{{group.items}}" wx:key="short_code" wx:for-item="item" is="report-card" data="{{...item, featured: false}}" />
+      <!-- 更早:按日期二级分段 -->
+      <block wx:for="{{group.subgroups}}" wx:key="date_label" wx:for-item="sub">
+        <view class="subdate-label">{{sub.date_label}}</view>
+        <template wx:for="{{sub.items}}" wx:key="short_code" wx:for-item="item" is="report-card" data="{{...item, featured: false}}" />
+      </block>
+    </block>
+  </block>
+
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>

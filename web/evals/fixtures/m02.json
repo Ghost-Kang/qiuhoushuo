@@ -1,0 +1,95 @@
+{
+  "id": "m02",
+  "competition": "国际大赛小组赛",
+  "stage": "group_stage_round_1",
+  "kickoff_iso": "2022-11-23T13:00:00Z",
+  "venue_city": "Doha",
+  "home": {
+    "team": "德国",
+    "team_en": "Germany",
+    "score": 1,
+    "lineup_formation": "4-2-3-1",
+    "key_players": [
+      "京多安",
+      "穆西亚拉",
+      "格纳布里",
+      "诺伊尔(GK)"
+    ]
+  },
+  "away": {
+    "team": "日本",
+    "team_en": "Japan",
+    "score": 2,
+    "lineup_formation": "4-2-3-1",
+    "key_players": [
+      "堂安律",
+      "浅野拓磨",
+      "三笘薰",
+      "权田修一(GK)"
+    ]
+  },
+  "stats": {
+    "home_possession": 74,
+    "away_possession": 26,
+    "home_shots": 26,
+    "away_shots": 12,
+    "home_shots_on": 9,
+    "away_shots_on": 4,
+    "home_xg": 3.24,
+    "away_xg": 1.62,
+    "home_pass_acc": 89,
+    "away_pass_acc": 71,
+    "home_corners": 6,
+    "away_corners": 6,
+    "home_fouls": 6,
+    "away_fouls": 14,
+    "home_yellow": 0,
+    "away_yellow": 0,
+    "home_red": 0,
+    "away_red": 0
+  },
+  "key_events": [
+    {
+      "minute": 33,
+      "type": "goal",
+      "team": "home",
+      "player": "京多安",
+      "detail": "点球命中"
+    },
+    {
+      "minute": 46,
+      "type": "substitution",
+      "team": "away",
+      "player": "富安健洋",
+      "detail": "中场休息后登场"
+    },
+    {
+      "minute": 57,
+      "type": "substitution",
+      "team": "away",
+      "player": "三笘薰",
+      "detail": "换下长友佑都"
+    },
+    {
+      "minute": 75,
+      "type": "goal",
+      "team": "away",
+      "player": "堂安律",
+      "detail": "补射扳平"
+    },
+    {
+      "minute": 83,
+      "type": "goal",
+      "team": "away",
+      "player": "浅野拓磨",
+      "detail": "右路前插小角度破门"
+    }
+  ],
+  "narratives": {
+    "headline_factual": "日本 2:1 逆转德国，替补球员改写比赛",
+    "tactical_summary": "日本下半场通过换人提升边路推进和前场冲刺，德国持续压上后身后空间被反复利用。",
+    "human_story": "堂安律和浅野拓磨替补登场后分别进球，权田修一在高压射门潮中完成 8 次扑救。",
+    "stat_anomaly": "德国 26 次射门和 3.24 xG 只进 1 球，日本 26% 控球却在最后 15 分钟连进 2 球。"
+  },
+  "trademark_check": "no_official_event_name"
+}

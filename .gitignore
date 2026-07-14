@@ -1,0 +1,32 @@
+node_modules/
+.next/
+dist/
+coverage/
+web/coverage/
+*.tsbuildinfo
+.DS_Store
+
+# 环境变量：仅 .env.example 入库，本地 secrets 永不入库
+.env
+.env.local
+.env.*.local
+*.env
+
+# 评分运行产物（含可能写入的 LLM 输出，体积大且非源码）
+web/evals/runs/
+
+# 临时
+.codex-tmp/
+.pnpm-store/
+
+# 服务器生成的含密码 SQL
+*.gen.sql
+
+# 密钥/证书类,纵深防御(公开前审计 L4)
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+.npmrc
+__pycache__/

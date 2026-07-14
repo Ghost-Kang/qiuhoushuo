@@ -1,0 +1,29 @@
+.ag-mask {
+  /* 不透明遮罩(非半透明)——盖住整个页面主体,读作"先同意再用"的硬关卡,
+     确保用户同意前透过遮罩看不到可用页面,杜绝「默认自动同意」。 */
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0a0a0a;
+  display: flex; align-items: center; justify-content: center;
+}
+.ag-card {
+  width: 600rpx; box-sizing: border-box;
+  background: #1c1c1e; border-radius: 28rpx;
+  padding: 48rpx 40rpx 36rpx;
+  box-shadow: 0 16rpx 48rpx rgba(0, 0, 0, 0.4);
+}
+.ag-title {
+  font-size: 34rpx; font-weight: 700; color: #ffffff;
+  text-align: center; margin-bottom: 28rpx;
+}
+.ag-body {
+  font-size: 28rpx; line-height: 1.72; color: #c9c9ce;
+  margin-bottom: 44rpx;
+}
+.ag-link { color: #16d6c2; }
+.ag-actions { display: flex; gap: 20rpx; }
+.ag-btn {
+  flex: 1; height: 84rpx; line-height: 84rpx;
+  text-align: center; border-radius: 18rpx; font-size: 30rpx;
+}
+.ag-reject { background: #2c2c2e; color: #9a9aa0; }
+.ag-agree { background: #16d6c2; color: #06201d; font-weight: 600; }

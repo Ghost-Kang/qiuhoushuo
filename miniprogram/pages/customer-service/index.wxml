@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="cs">
+    <view class="cs-ic">💬</view>
+    <view class="cs-title">在线客服 · 意见反馈</view>
+    <view class="cs-sub">使用中遇到问题，或想吐槽 / 提建议？点下面进微信客服，我们会尽快回复。</view>
+    <button class="btn-primary cs-btn" open-type="contact" bindcontact="onContact">联系客服</button>
+    <view class="cs-tip">留言我们都会看到，一般当天回复。</view>
+  </view>
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>

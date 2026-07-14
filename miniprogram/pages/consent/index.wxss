@@ -1,0 +1,69 @@
+.consent {
+  min-height: 100vh;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 48rpx;
+  box-sizing: border-box;
+}
+.consent-inner {
+  width: 100%;
+  max-width: 620rpx;
+  background: #1c1c1e;
+  border-radius: 28rpx;
+  padding: 56rpx 44rpx 40rpx;
+  box-shadow: 0 16rpx 48rpx rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+}
+.brand {
+  font-size: 26rpx;
+  color: #16d6c2;
+  letter-spacing: 2rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+.c-title {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+.c-body {
+  font-size: 28rpx;
+  line-height: 1.76;
+  color: #c9c9ce;
+  margin-bottom: 48rpx;
+}
+.c-link {
+  color: #16d6c2;
+}
+.c-actions {
+  display: flex;
+  gap: 20rpx;
+}
+.c-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 18rpx;
+  font-size: 30rpx;
+}
+.c-reject {
+  background: #2c2c2e;
+  color: #9a9aa0;
+}
+.c-agree {
+  background: #16d6c2;
+  color: #06201d;
+  font-weight: 600;
+}
+.c-foot {
+  margin-top: 40rpx;
+  font-size: 22rpx;
+  color: #6a6a70;
+  text-align: center;
+}

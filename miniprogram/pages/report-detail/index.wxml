@@ -1,0 +1,215 @@
+<!-- pages/report-detail/index.wxml · 战报详情核心页 -->
+<!-- 协议同意硬关卡:深链(分享卡/扫码)可绕过 tab 直达本页 → 未同意也要先弹关卡、不放行 -->
+<agreement-gate />
+<import src="/templates/flag.wxml" />
+<view wx:if="{{loading}}" class="loading">加载中…</view>
+
+<!-- 完赛但战报还没生成(cron 空窗 / 加载失败)→ 友好态,不白屏 -->
+<view wx:if="{{!loading && noReport}}" class="no-report" bindtap="retryReport">
+  <view class="no-report-ic">⏳</view>
+  <view class="no-report-title">战报生成中</view>
+  <view class="no-report-sub">比分定了老李就开写 · 稍后点我刷新</view>
+</view>
+
+<view
+  wx:if="{{!loading && report}}"
+  class="container theme-{{style}}"
+  bindtouchstart="onHorizontalTouchStart"
+  bindtouchend="onHorizontalTouchEnd"
+>
+  <!-- AIGC 显著标识:AI 战报(文本生成)页顶部强提示,满足微信审核「显著说明 AI 生成」+ 标识办法 -->
+  <view class="aigc-banner">⚡ 内容由 AI 生成 · 人工智能生成</view>
+  <!-- 风格切换：一体化分段控件 + 滑块 -->
+  <view class="style-switcher">
+    <view class="thumb" style="transform: translateX({{styleIndex * 100}}%)"></view>
+    <view
+      class="style-tab {{style === 'hardcore' ? 'active' : ''}}"
+      data-style="hardcore"
+      bindtap="switchStyle"
+    >战术版</view>
+    <view
+      class="style-tab {{style === 'duanzi' ? 'active' : ''}}"
+      data-style="duanzi"
+      bindtap="switchStyle"
+    >好笑版</view>
+    <view
+      class="style-tab {{style === 'emotion' ? 'active' : ''}}"
+      data-style="emotion"
+      bindtap="switchStyle"
+    >追剧版</view>
+  </view>
+
+  <!-- 对阵头部:国旗 VS(复用赛事 tab 的国旗模板/样式) -->
+  <view class="matchup">
+    <view class="mu-side">
+      <template is="flag" data="{{flag: report.home_flag, size: 'md'}}" />
+      <text class="mu-team">{{report.home_team}}</text>
+    </view>
+    <view class="mu-score">{{report.home_score}}<text class="mu-colon">:</text>{{report.away_score}}</view>
+    <view class="mu-side">
+      <template is="flag" data="{{flag: report.away_flag, size: 'md'}}" />
+      <text class="mu-team">{{report.away_team}}</text>
+    </view>
+  </view>
+
+  <view class="meta">
+    <text>{{report.competition}}</text>
+    <text class="dot">·</text>
+    <text>{{report.date}}</text>
+  </view>
+
+  <view class="detail-hero">
+    <view class="title">{{report[style].title}}</view>
+    <view wx:if="{{report[style].subtitle}}" class="subtitle">{{report[style].subtitle}}</view>
+  </view>
+
+  <!-- 一图看懂：紧接第一个标题之后(老板要求);直接展示服务端渲染的 PNG(与下载/分享同一张图)。
+       briefImageSrc 由 loadBriefImage 经 wx.downloadFile 拿到临时文件。-->
+  <view class="brief-card" wx:if="{{briefImageSrc}}" bindtap="saveBriefCardImage">
+    <image
+      class="brief-image"
+      src="{{briefImageSrc}}"
+      mode="widthFix"
+      binderror="onBriefError"
+      show-menu-by-longpress="true"
+    />
+    <view class="brief-download">点击保存一图看懂</view>
+  </view>
+  <!-- 引流:发微信/朋友圈用带小程序码版(扫码进小程序);站外发小红书/微博请用上面无码版 -->
+  <view wx:if="{{briefImageSrc}}" class="brief-wx-save" catchtap="saveBriefCardImageQr">存微信版 · 带小程序码,扫码即进 →</view>
+  <!-- 一图看懂加载中:骨架占位(预留 ~3:4 卡片高度),图到了上面分支替换,不跳版 -->
+  <view wx:elif="{{briefLoading}}" class="brief-skeleton skeleton"></view>
+
+  <view class="lead">{{report[style].lead}}</view>
+
+  <!-- 精彩镜头：有生成图时展示图片；否则保留数据驱动镜头卡兜底 -->
+  <view class="moments" wx:if="{{report.highlight_moments && report.highlight_moments.length}}">
+    <view class="section-title">精彩镜头</view>
+    <view class="moment-card" wx:for="{{report.highlight_moments}}" wx:key="id">
+      <image
+        wx:if="{{item.image_url}}"
+        class="moment-image"
+        src="{{item.image_url}}"
+        data-url="{{item.image_url}}"
+        mode="aspectFill"
+        lazy-load="true"
+        show-menu-by-longpress="true"
+        bindtap="onMomentImageTap"
+      />
+      <view wx:else class="moment-visual {{item.kind}}">
+        <view class="pitch-line horizontal"></view>
+        <view class="pitch-line vertical"></view>
+        <view class="ball"></view>
+      </view>
+      <view class="moment-copy">
+        <view class="moment-minute">{{item.minute}}</view>
+        <view class="moment-title">{{item.title}}</view>
+        <view class="moment-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+
+  <block wx:for="{{report[style].body}}" wx:key="*this" wx:for-item="paragraph">
+    <view class="body-p">{{paragraph}}</view>
+  </block>
+
+  <!-- 深度战报付费墙：内容渐隐 → 锁条。
+       iOS 合规(策略 C):iOS 不站内售卖虚拟内容,改服务号引导;安卓走站内 jsapi_mini 付。 -->
+  <block wx:if="{{report[style].premium_locked}}">
+    <view class="paywall-fade"></view>
+    <view class="paywall">
+      <view class="lock">🔒</view>
+      <block wx:if="{{isIOS}}">
+        <view class="paywall-title">完整深度战报</view>
+        <view class="paywall-ios-hint">iOS 暂不支持在小程序内开通,关注服务号「{{serviceAccountName}}」即可查看完整深度战报</view>
+        <view class="paywall-btn" bindtap="onIosFollowTap">复制服务号名 · 去关注</view>
+      </block>
+      <block wx:else>
+        <view class="paywall-title">赛事通 · 解锁全程深度战报</view>
+        <button class="paywall-btn" data-sku="deep_report" bindtap="onPaywallTap">¥19 开通赛事通</button>
+      </block>
+    </view>
+  </block>
+
+  <!-- 数据可视化条（stats 缺失整块不渲染，降级）-->
+  <view class="stat-block" wx:if="{{statBars.length}}">
+    <view class="stat-row" wx:for="{{statBars}}" wx:key="label">
+      <view class="stat-label">
+        <text class="v">{{item.home}}</text>
+        <text>{{item.label}}</text>
+        <text class="v">{{item.away}}</text>
+      </view>
+      <view class="stat-track"><view class="stat-fill" style="width: {{item.pct}}%"></view></view>
+    </view>
+  </view>
+
+  <!-- 战术图解：双方首发阵型卡（灰度关/阵容未出 → binderror 整块隐藏）-->
+  <view class="tactics-card" wx:if="{{showTactics && tacticsImageSrc}}" bindtap="saveTacticsCardImage">
+    <view class="section-title">战术图解</view>
+    <image
+      class="tactics-image"
+      src="{{tacticsImageSrc}}"
+      mode="widthFix"
+      show-menu-by-longpress="true"
+      binderror="onTacticsError"
+    />
+    <view class="tactics-download">点击保存战术图解</view>
+  </view>
+
+  <!-- 球员评分卡：全场最佳 + 主客各 Top5 评分（无 players → 路由 404，非 200/binderror 整块隐藏）-->
+  <view class="tactics-card" wx:if="{{showRatings && ratingsImageSrc}}" bindtap="saveRatingsCardImage">
+    <view class="section-title">球员评分</view>
+    <image
+      class="tactics-image"
+      src="{{ratingsImageSrc}}"
+      mode="widthFix"
+      show-menu-by-longpress="true"
+      binderror="onRatingsError"
+    />
+    <view class="tactics-download">点击保存球员评分</view>
+  </view>
+
+  <!-- 出图入口卡：金句成"成品卡" + 引导分享（注入视觉，不做伪 1:1 复刻）-->
+  <view class="inline-card" bindtap="openShareSheet">
+    <view class="ic-quote">{{report[style].share_quote}}</view>
+    <view class="ic-cta">保存这张图 →</view>
+    <view class="ic-mark">超帧球后说 · AI 生成</view>
+  </view>
+
+  <view class="tags">
+    <text wx:for="{{report[style].tags}}" wx:key="*this" class="tag">#{{item}}</text>
+  </view>
+
+  <view class="actions">
+    <view class="action-btn" bindtap="saveQuote">收藏金句</view>
+    <view class="action-btn primary" bindtap="openShareSheet">一键分享图</view>
+  </view>
+</view>
+
+<!-- 分享底部弹层 -->
+<view wx:if="{{showShareSheet}}" class="sheet-mask" bindtap="closeShareSheet">
+  <view class="sheet" catchtap="noop">
+    <view class="sheet-title">分享到</view>
+    <view class="sheet-grid">
+      <button open-type="share" class="sheet-item">
+        <view class="sheet-icon sheet-icon-wechat">微</view>
+        <text>微信好友/群</text>
+      </button>
+      <view class="sheet-item" data-platform="wechat" bindtap="saveCardImage">
+        <view class="sheet-icon sheet-icon-moments">圈</view>
+        <text>存朋友圈图</text>
+      </view>
+      <view class="sheet-item" data-platform="xhs" bindtap="saveCardImage">
+        <view class="sheet-icon sheet-icon-xhs">书</view>
+        <text>存小红书图</text>
+      </view>
+      <view class="sheet-item" data-platform="x" bindtap="saveCardImage">
+        <view class="sheet-icon sheet-icon-weibo">博</view>
+        <text>存X/微博图</text>
+      </view>
+    </view>
+    <view class="sheet-cancel" bindtap="closeShareSheet">取消</view>
+  </view>
+</view>
+
+<privacy-popup />

@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="empty">功能即将上线</view>
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>

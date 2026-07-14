@@ -1,0 +1,116 @@
+{
+  "id": "m03",
+  "competition": "国际大赛小组赛",
+  "stage": "group_stage_round_1",
+  "kickoff_iso": "2022-11-23T16:00:00Z",
+  "venue_city": "ath-Thumama",
+  "home": {
+    "team": "西班牙",
+    "team_en": "Spain",
+    "score": 7,
+    "lineup_formation": "4-3-3",
+    "key_players": [
+      "奥尔莫",
+      "费兰·托雷斯",
+      "加维",
+      "乌奈·西蒙(GK)"
+    ]
+  },
+  "away": {
+    "team": "哥斯达黎加",
+    "team_en": "Costa Rica",
+    "score": 0,
+    "lineup_formation": "4-4-2",
+    "key_players": [
+      "凯洛尔·纳瓦斯(GK)",
+      "坎贝尔",
+      "塞尔索·博尔赫斯",
+      "布莱恩·奥维耶多"
+    ]
+  },
+  "stats": {
+    "home_possession": 82,
+    "away_possession": 18,
+    "home_shots": 17,
+    "away_shots": 0,
+    "home_shots_on": 8,
+    "away_shots_on": 0,
+    "home_xg": 3.16,
+    "away_xg": 0.03,
+    "home_pass_acc": 94,
+    "away_pass_acc": 72,
+    "home_corners": 5,
+    "away_corners": 0,
+    "home_fouls": 8,
+    "away_fouls": 12,
+    "home_yellow": 0,
+    "away_yellow": 2,
+    "home_red": 0,
+    "away_red": 0
+  },
+  "key_events": [
+    {
+      "minute": 11,
+      "type": "goal",
+      "team": "home",
+      "player": "奥尔莫",
+      "detail": "禁区内停球后挑射"
+    },
+    {
+      "minute": 21,
+      "type": "goal",
+      "team": "home",
+      "player": "阿森西奥",
+      "detail": "接阿尔巴传中推射"
+    },
+    {
+      "minute": 31,
+      "type": "goal",
+      "team": "home",
+      "player": "费兰·托雷斯",
+      "detail": "点球命中"
+    },
+    {
+      "minute": 54,
+      "type": "goal",
+      "team": "home",
+      "player": "费兰·托雷斯",
+      "detail": "禁区内转身低射"
+    },
+    {
+      "minute": 68,
+      "type": "yellow_card",
+      "team": "away",
+      "player": "弗朗西斯科·卡尔沃",
+      "detail": "防守犯规染黄"
+    },
+    {
+      "minute": 74,
+      "type": "goal",
+      "team": "home",
+      "player": "加维",
+      "detail": "凌空推射远角"
+    },
+    {
+      "minute": 90,
+      "type": "goal",
+      "team": "home",
+      "player": "卡洛斯·索莱尔",
+      "detail": "补射破门"
+    },
+    {
+      "minute": 92,
+      "type": "goal",
+      "team": "home",
+      "player": "莫拉塔",
+      "detail": "禁区内低射"
+    }
+  ],
+  "narratives": {
+    "headline_factual": "西班牙 7:0 大胜哥斯达黎加，完成单边压制",
+    "tactical_summary": "西班牙通过连续短传和肋部渗透把对手压在低位，整场没有让哥斯达黎加完成射门。",
+    "human_story": "加维以年轻中场身份贡献进球，成为这场大胜中最突出的个人节点之一。",
+    "stat_anomaly": "西班牙控球 82%、传球成功率 94%，哥斯达黎加全场 0 射门且 xG 仅 0.03。"
+  },
+  "trademark_check": "no_official_event_name"
+}

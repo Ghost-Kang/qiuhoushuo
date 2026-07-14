@@ -1,0 +1,102 @@
+{
+  "id": "m05",
+  "competition": "国际大赛 1/4 决赛",
+  "stage": "quarter_final",
+  "kickoff_iso": "2022-12-10T15:00:00Z",
+  "venue_city": "ath-Thumama",
+  "home": {
+    "team": "摩洛哥",
+    "team_en": "Morocco",
+    "score": 1,
+    "lineup_formation": "4-3-3",
+    "key_players": [
+      "恩内斯里",
+      "齐耶赫",
+      "阿姆拉巴特",
+      "布努(GK)"
+    ]
+  },
+  "away": {
+    "team": "葡萄牙",
+    "team_en": "Portugal",
+    "score": 0,
+    "lineup_formation": "4-3-3",
+    "key_players": [
+      "布鲁诺·费尔南德斯",
+      "贡萨洛·拉莫斯",
+      "贝尔纳多·席尔瓦",
+      "迪奥戈·科斯塔(GK)"
+    ]
+  },
+  "stats": {
+    "home_possession": 27,
+    "away_possession": 73,
+    "home_shots": 9,
+    "away_shots": 12,
+    "home_shots_on": 3,
+    "away_shots_on": 3,
+    "home_xg": 1.25,
+    "away_xg": 1.23,
+    "home_pass_acc": 71,
+    "away_pass_acc": 86,
+    "home_corners": 3,
+    "away_corners": 9,
+    "home_fouls": 15,
+    "away_fouls": 9,
+    "home_yellow": 2,
+    "away_yellow": 1,
+    "home_red": 1,
+    "away_red": 0
+  },
+  "key_events": [
+    {
+      "minute": 42,
+      "type": "goal",
+      "team": "home",
+      "player": "恩内斯里",
+      "detail": "头球破门"
+    },
+    {
+      "minute": 51,
+      "type": "substitution",
+      "team": "away",
+      "player": "克里斯蒂亚诺·罗纳尔多",
+      "detail": "替补登场"
+    },
+    {
+      "minute": 70,
+      "type": "yellow_card",
+      "team": "home",
+      "player": "阿什拉夫·达里",
+      "detail": "防守犯规染黄"
+    },
+    {
+      "minute": 87,
+      "type": "yellow_card",
+      "team": "away",
+      "player": "维蒂尼亚",
+      "detail": "中场犯规染黄"
+    },
+    {
+      "minute": 91,
+      "type": "yellow_card",
+      "team": "home",
+      "player": "瓦利德·谢迪拉",
+      "detail": "补时阶段染黄"
+    },
+    {
+      "minute": 93,
+      "type": "red_card",
+      "team": "home",
+      "player": "瓦利德·谢迪拉",
+      "detail": "第二张黄牌被罚下"
+    }
+  ],
+  "narratives": {
+    "headline_factual": "摩洛哥 1:0 击败葡萄牙，依靠防守反击晋级",
+    "tactical_summary": "摩洛哥长时间低位防守，依靠边路转换和禁区争顶拿到关键进球，随后承受葡萄牙持续压迫。",
+    "human_story": "布努和后防线在最后阶段连续处理传中与禁区二点球，把一球优势守到终场。",
+    "stat_anomaly": "葡萄牙控球 73% 且角球 9 次，但两队 xG 几乎持平，摩洛哥用 27% 控球赢下比赛。"
+  },
+  "trademark_check": "no_official_event_name"
+}

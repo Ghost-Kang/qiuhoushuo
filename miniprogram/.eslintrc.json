@@ -1,0 +1,35 @@
+{
+  "env": {
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "globals": {
+    "App": "readonly",
+    "Page": "readonly",
+    "Component": "readonly",
+    "getApp": "readonly",
+    "wx": "readonly",
+    "getCurrentPages": "readonly",
+    "module": "writable",
+    "require": "readonly",
+    "global": "readonly",
+    "console": "readonly",
+    "setTimeout": "readonly",
+    "clearTimeout": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "script"
+  },
+  "rules": {
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-console": "off"
+  }
+}

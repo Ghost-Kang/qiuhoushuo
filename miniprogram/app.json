@@ -1,0 +1,66 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/consent/index",
+    "pages/reports/index",
+    "pages/chat/index",
+    "pages/me/index",
+    "pages/report-detail/index",
+    "pages/fan-avatar/index",
+    "pages/customer-service/index",
+    "pages/chat-room/index",
+    "pages/legal/index",
+    "pages/leaderboard/index",
+    "pages/standings/index",
+    "pages/bracket/index"
+  ],
+  "darkmode": false,
+  "__usePrivacyCheck__": true,
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0a0a0a",
+    "navigationBarTitleText": "超帧球后说",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0a0a0a",
+    "backgroundColorTop": "#0a0a0a",
+    "backgroundColorBottom": "#0a0a0a"
+  },
+  "tabBar": {
+    "color": "#8b97a8",
+    "selectedColor": "#00E5FF",
+    "backgroundColor": "#0a0a0a",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "赛事",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/reports/index",
+        "text": "战报",
+        "iconPath": "static/tab/reports.png",
+        "selectedIconPath": "static/tab/reports-active.png"
+      },
+      {
+        "pagePath": "pages/fan-avatar/index",
+        "text": "球迷形象",
+        "iconPath": "static/tab/fan-avatar.png",
+        "selectedIconPath": "static/tab/fan-avatar-active.png"
+      },
+      {
+        "pagePath": "pages/me/index",
+        "text": "我的",
+        "iconPath": "static/tab/me.png",
+        "selectedIconPath": "static/tab/me-active.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 60000,
+    "downloadFile": 60000
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

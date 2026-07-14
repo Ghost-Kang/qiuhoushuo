@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "license": "自产原创·内部版权",
+  "generatedBy": "web/scripts/gen-laoli-bgm.ts",
+  "tracks": [
+    { "id": "heat", "file": "heat.wav", "mood": "热血", "commercialUse": true },
+    { "id": "warm", "file": "warm.wav", "mood": "温情", "commercialUse": true },
+    { "id": "comic", "file": "comic.wav", "mood": "段子", "commercialUse": true }
+  ]
+}

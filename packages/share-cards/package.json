@@ -1,0 +1,32 @@
+{
+  "name": "@qhs/share-cards",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:visual": "node scripts/render-all.mjs"
+  },
+  "dependencies": {
+    "@fontsource/noto-sans-sc": "^5.0.5",
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.10.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/pngjs": "^6.0.5",
+    "pngjs": "^7.0.0",
+    "typescript": "^5",
+    "vitest": "^4.0.0"
+  }
+}

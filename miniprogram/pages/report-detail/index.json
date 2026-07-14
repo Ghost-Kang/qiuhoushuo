@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "战报",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "privacy-popup": "/components/privacy-popup/index",
+    "agreement-gate": "/components/agreement-gate/index"
+  }
+}

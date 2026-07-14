@@ -1,0 +1,15 @@
+<scroll-view scroll-y class="legal-page">
+  <view class="legal-head">
+    <view class="legal-title">{{title}}</view>
+    <view class="legal-meta">超帧球后说 · 版本 {{version}} · 更新 {{updated}}</view>
+  </view>
+
+  <block wx:for="{{blocks}}" wx:key="index">
+    <view wx:if="{{item.t === 'h'}}" class="b-h">{{item.x}}</view>
+    <view wx:elif="{{item.t === 'note'}}" class="b-note">{{item.x}}</view>
+    <view wx:elif="{{item.t === 'li'}}" class="b-li">{{item.x}}</view>
+    <view wx:else class="b-p">{{item.x}}</view>
+  </block>
+
+  <view class="legal-foot">如对本协议有任何疑问，请联系 {{contact}}</view>
+</scroll-view>

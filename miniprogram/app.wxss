@@ -1,0 +1,178 @@
+/* 全局样式 · 球后说 · 视觉设计系统 v2（高质感/年轻化/科技感）
+ * 定调：数据是底色，情绪是高光。落地真源 = tasks/VISUAL-DESIGN-SYSTEM.md §8。 */
+
+page {
+  /* —— 基底（品牌恒定，永不换肤）—— */
+  --bg:            #0A0A0A;
+  --bg-elev-1:     #121418;
+  --surface:       rgba(255,255,255,0.04);
+  --surface-2:     rgba(255,255,255,0.06);
+  --hairline:      rgba(255,255,255,0.08);
+  --hairline-2:    rgba(255,255,255,0.12);
+
+  /* —— 文字层级（透明度分级；faint 0.55 守住 WCAG AA，仅装饰用）—— */
+  --text:          #E8EDF2;
+  --text-muted:    rgba(232,237,242,0.60);
+  --text-faint:    rgba(232,237,242,0.55);
+  --text-disabled: rgba(232,237,242,0.30);
+
+  /* —— 品牌 accent（App 级恒定 = 青蓝）—— */
+  --brand:         #00E5FF;
+  --brand-ink:     #002A30;
+  --brand-glow:    rgba(0,229,255,0.35);
+
+  /* —— 语义色（已解撞色：warning≠情绪 accent，info≠品牌）—— */
+  --live:          #FF3B5C;
+  --success:       #2FD27A;
+  --warning:       #F5A623;
+  --info:          #5B9DFF;
+  --error:         #FF453A;
+
+  /* —— 三风格 accent（仅战报详情页用）—— */
+  --accent-hardcore: #00E5FF;
+  --accent-duanzi:   #FF2D55;
+  --accent-emotion:  #E8B339;
+  --accent:        #00E5FF;
+  --accent-ink:    #002A30;
+  --accent-glow:   rgba(0,229,255,0.35);
+
+  /* —— 字号阶梯 —— */
+  --fs-display: 64rpx; --fs-h1: 48rpx; --fs-h2: 36rpx; --fs-h3: 32rpx;
+  --fs-body: 30rpx; --fs-sm: 26rpx; --fs-xs: 24rpx; --fs-2xs: 22rpx;
+
+  /* —— 字重 / 行高 —— */
+  --fw-black: 900; --fw-bold: 700; --fw-semi: 600; --fw-reg: 400;
+  --lh-tight: 1.15; --lh-snug: 1.4; --lh-body: 1.8;
+
+  /* —— 间距 8pt 栅格 / 圆角 —— */
+  --sp-1: 8rpx; --sp-2: 16rpx; --sp-3: 24rpx; --sp-4: 32rpx; --sp-5: 48rpx; --sp-6: 64rpx; --sp-7: 96rpx;
+  --r-sm: 12rpx; --r-md: 24rpx; --r-lg: 32rpx; --r-pill: 100rpx;
+
+  /* —— 层次（暗色靠内描边+微发光）/ 焦点环 —— */
+  --elev-1: inset 0 0 0 1rpx rgba(255,255,255,0.06);
+  --elev-2: inset 0 0 0 1rpx rgba(255,255,255,0.10), 0 4rpx 24rpx rgba(0,0,0,0.4);
+  --glow-accent: 0 0 24rpx var(--accent-glow);
+  --focus-ring: 0 0 0 3rpx rgba(0,229,255,0.5);
+
+  /* —— 动效 —— */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-std: cubic-bezier(0.4, 0, 0.2, 1);
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  min-height: 100vh;
+}
+
+.container { padding: var(--sp-4); }
+
+/* 数字仪表盘类（tnum 在 PingFang 效果有限，关键模块另用固定宽度+右对齐兜底，见 §8.2） */
+.num, .score, .stat-val {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.5rpx;
+}
+
+/* 战报详情页：仅局部覆写 accent，基底不换肤（删除旧 .theme-duanzi 的 --bg/color 真 bug） */
+.theme-hardcore { --accent: var(--accent-hardcore); --accent-ink: #002A30; --accent-glow: rgba(0,229,255,0.35); }
+.theme-duanzi   { --accent: var(--accent-duanzi);   --accent-ink: #2A0008; --accent-glow: rgba(255,45,85,0.32); }
+.theme-emotion  { --accent: var(--accent-emotion);  --accent-ink: #2A1E00; --accent-glow: rgba(232,179,57,0.32); }
+
+/* —— 全局原子 —— */
+/* 主按钮：品牌青蓝 + 信号 glow */
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--r-pill);
+  padding: 28rpx 64rpx;
+  font-weight: var(--fw-semi);
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: var(--glow-accent);
+  transition: transform var(--dur-fast) var(--ease-std), box-shadow var(--dur-base);
+}
+.btn-primary:active { transform: scale(0.97); box-shadow: 0 0 12rpx var(--accent-glow); }
+
+/* 次级按钮：细描边玻璃 */
+.btn-ghost {
+  background: var(--surface); color: var(--text);
+  border: 1rpx solid var(--hairline-2);
+  border-radius: var(--r-pill); padding: 24rpx 48rpx;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.btn-ghost:active { background: var(--surface-2); }
+
+.tag {
+  display: inline-flex; align-items: center;
+  padding: 8rpx 20rpx; border-radius: var(--r-pill);
+  background: var(--surface); color: var(--text-muted);
+  font-size: var(--fs-2xs); margin-right: 12rpx;
+}
+.tag--accent { color: var(--accent); background: rgba(0,229,255,0.10); }
+
+/* AIGC 合规标识：合规内容必须可读 → muted 0.60 + 24rpx（不再用读不清的 faint） */
+.ai-notice {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 16rpx 24rpx;
+  line-height: 1.6;
+  letter-spacing: 1rpx;
+}
+/* 贴顶磨砂条变体（安卓无 blur 时靠 0.88 底色兜可读） */
+.aigc-notice {
+  position: sticky; top: 0; z-index: 5;
+  text-align: center; font-size: var(--fs-xs); color: var(--text-muted);
+  padding: 12rpx 0; letter-spacing: 1rpx;
+  background: rgba(10,10,10,0.88);
+  backdrop-filter: blur(12rpx);
+  border-bottom: 1rpx solid var(--hairline);
+}
+/* AIGC 显著标识横幅：AI 生成页面顶部强提示。微信小程序版本审核要求「AI 生成页面增加显著说明"AI 生成、人工智能生成"」，
+   同时满足《互联网信息服务深度合成管理规定》《人工智能生成合成内容标识办法》的显著(可感知)标识义务。
+   品牌青蓝描边+底色+加粗,区别于页脚 muted 的弱标识,确保"显著"。 */
+.aigc-banner {
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--sp-3);
+  padding: 16rpx 20rpx;
+  border-radius: var(--r-md);
+  background: rgba(0,229,255,0.10);
+  border: 1rpx solid var(--brand);
+  color: var(--brand);
+  font-size: var(--fs-sm); font-weight: var(--fw-semi);
+  text-align: center; letter-spacing: 1rpx;
+}
+
+/* —— 全局：骨架屏 / 空态 / 错误重试态 —— */
+.skeleton { background: var(--surface); border-radius: var(--r-md); position: relative; overflow: hidden; }
+.skeleton::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transform: translateX(-100%); animation: shimmer 1.4s var(--ease-std) infinite;
+}
+@keyframes shimmer { to { transform: translateX(100%); } }
+.skeleton-card { height: 168rpx; margin-bottom: var(--sp-2); }
+
+.empty { text-align: center; padding: var(--sp-7) var(--sp-5); color: var(--text-faint); font-size: var(--fs-sm); }
+.empty .sub { font-size: var(--fs-2xs); color: var(--text-faint); margin-top: 12rpx; line-height: 1.6; }
+.empty .ic, .error-state .error-ic {
+  width: 120rpx; height: 120rpx; margin: 0 auto 24rpx; border-radius: 50%;
+  border: 1rpx solid var(--hairline-2); display: flex; align-items: center; justify-content: center;
+  font-size: 48rpx; box-shadow: inset 0 0 24rpx rgba(0,229,255,0.08);
+}
+.error-state {
+  text-align: center; padding: var(--sp-7) var(--sp-5); color: var(--text-muted); font-size: var(--fs-sm);
+}
+.error-state .error-ic { box-shadow: inset 0 0 24rpx rgba(255,69,58,0.12); }
+
+/* —— 国旗徽章(全局复用:赛事 / 战报列表 / 战报详情;模板见 templates/flag.wxml)—— */
+/* 圆角矩形显全旗(竖三色旗如法/意不裁切失真);ring 叠描边+内阴影,暗底提升低对比旗边界。 */
+.flag { position: relative; flex: none; border-radius: 12rpx; overflow: hidden; background: var(--bg-elev-1); }
+.flag-sm { width: 64rpx; height: 44rpx; border-radius: 8rpx; }
+.flag-md { width: 96rpx; height: 64rpx; }
+.flag-lg { width: 132rpx; height: 88rpx; }
+.flag-img { width: 100%; height: 100%; display: block; }
+.flag-emoji { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 48rpx; line-height: 1; }
+.flag-sm .flag-emoji { font-size: 32rpx; }
+.flag-lg .flag-emoji { font-size: 64rpx; }
+.flag-ring { position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1rpx var(--hairline-2), inset 0 0 12rpx rgba(0,0,0,0.35); pointer-events: none; }

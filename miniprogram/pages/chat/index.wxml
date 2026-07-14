@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="hero">
+    <view class="title">群聊广场</view>
+    <view class="sub">老李带你看球 · 不冷场不刷屏</view>
+  </view>
+  <view wx:if="{{rooms.length === 0}}" class="empty">
+    群聊将在 6/11 开赛日开放
+  </view>
+  <block wx:for="{{rooms}}" wx:key="id">
+    <view class="room" bindtap="enterRoom" data-id="{{item.id}}">
+      <view class="match">{{item.home_team}} vs {{item.away_team}}</view>
+      <view class="online">{{item.online_count}} 人在线 · 老李在场</view>
+    </view>
+  </block>
+  <view class="ai-notice">{{aiNotice}}</view>
+</view>
